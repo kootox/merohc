@@ -61,6 +61,17 @@ public class CompanyController {
         }
     }
 
+    @RequestMapping(value="/v1/company/{id:.+}", method= RequestMethod.DELETE)
+    public void deleteCompany(@PathVariable String id) {
+        try {
+            Company company = companyDao.forTopiaIdEquals(id).findAny();
+            companyDao.delete(company);
+            persistenceContext.commit();
+        } catch (TopiaNoResultException tnre) {
+            //Entity does not already exist, so nothing to do
+        }
+    }
+
     @RequestMapping(value="/v1/company", method= RequestMethod.POST)
     public CompanyDTO editCompany(@RequestParam(value="id") String id,
                                @RequestParam(value="name") String name,
