@@ -1,0 +1,21 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Factures</h3>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" href="#/companies/{{company.id}}/invoices/add">
+                <i class="fa fa-pencil"></i>
+                <span>Ajouter</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" href="#/companies/{{company.id}}/invoices/add">
+            <i class="fa fa-plus"></i>
+            <span>Ajouter</span>
+        </a>
+    </div>
+    <div class="list-group">
+        <a class="list-group-item" ng-repeat="invoice in invoices" href="#/companies/{{company.id}}/invoices/{{invoice.wikittyId}}"/>
+        <label>{{invoice.emittedDate | date : dd/MM/yyy}} - {{invoice.description}}</label>
+        <h4 class="list-group-item-heading">{{invoice.reference}} - {{invoice.amount|currency}}</h4>
+        </a>
+    </div>
+</div>

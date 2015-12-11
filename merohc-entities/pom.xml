@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.chorem</groupId>
+        <artifactId>merohc</artifactId>
+        <version>0.1-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.chorem.merohc</groupId>
+    <artifactId>merohc-entities</artifactId>
+
+    <name>Merohc :: entities</name>
+    <description>Merohc entities</description>
+
+    <dependencies>
+
+        <!-- compile dependencies -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nuiton</groupId>
+            <artifactId>nuiton-utils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nuiton.i18n</groupId>
+            <artifactId>nuiton-i18n</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nuiton.topia</groupId>
+            <artifactId>topia-persistence</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nuiton.topia</groupId>
+            <artifactId>topia-service-flyway</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nuiton</groupId>
+            <artifactId>nuiton-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nuiton</groupId>
+            <artifactId>nuiton-csv</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <!--resources>
+            <resource>
+                <directory>${project.build.directory}/generated-sources/resources</directory>
+                <includes>
+                    <include>objectmodel/*.properties</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+
+            <resource>
+                <directory>src/main/filters</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
+            </resource>
+        </resources-->
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.nuiton.eugene</groupId>
+                <artifactId>eugene-maven-plugin</artifactId>
+                <configuration>
+                    <inputs>zargo</inputs>
+                    <resolver>org.nuiton.util.FasterCachedResourceResolver</resolver>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-entities</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <!-- Corresponding to extracted package from zargo file -->
+                            <fullPackagePath>
+                                org.chorem.merhoc.entities
+                            </fullPackagePath>
+                            <!-- defaultPackage used for generation -->
+                            <defaultPackage>
+                                org.chorem.merhoc.entities
+                            </defaultPackage>
+                            <templates>
+                                org.nuiton.topia.templates.TopiaMetaTransformer
+                            </templates>
+                            <!--failIfUnsafe>true</failIfUnsafe-->
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.nuiton.topia</groupId>
+                        <artifactId>topia-templates</artifactId>
+                        <version>${topiaVersion}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

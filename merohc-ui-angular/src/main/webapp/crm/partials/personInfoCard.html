@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Détails de la personne</h3>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" href="#/company/{{person.id}}/edit">
+                <i class="fa fa-pencil"></i>
+                <span>Edit</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" href="#/companies/{{person.id}}/edit">
+            <i class="fa fa-pencil"></i>
+            <span>Edit</span>
+        </a>
+    </div>
+    <div class="list-group">
+        <div class="list-group-item">
+            <i class="fa fa-2x fa-user pull-left"></i>
+            <label>Prénom</label>
+            <h4 class="list-group-item-heading">{{person.Person.firstName}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Nom</label>
+            <h4 class="list-group-item-heading">{{person.Person.lastName}}</h4>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,184 @@
+<div class="row">
+
+    <div class="bootcards-cards">
+
+        <div class="col-sm-4">
+
+            <div class="panel panel-default bootcards-summary" ng-controller="HomePageResumeController">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Résumé</h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-4">
+                            <a class="bootcards-summary-item" ui-sref="crm.persons" style="padding-top:35px;">
+                                <i class="fa fa-3x fa-users"></i>
+                                <h4>
+                                    Personnes
+                                    <span class="label label-info">{{personNumber}}</span>
+                                </h4>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-4">
+                            <a class="bootcards-summary-item" ui-sref="crm.companies" style="padding-top:35px;">
+                                <i class="fa fa-3x fa-building-o"></i>
+                                <h4>
+                                    Sociétés
+                                    <span class="label label-info">{{companiesNumber}}</span>
+                                </h4>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-4">
+                            <a class="bootcards-summary-item" href="#" style="padding-top:35px;">
+                                <i class="fa fa-3x fa-eur"></i>
+                                <h4>
+                                    Factures
+                                    <span class="label label-info">{{invoiceNumber}}</span>
+                                </h4>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-4">
+                            <a class="bootcards-summary-item" href="#" style="padding-top:35px;">
+                                <i class="fa fa-3x fa-bar-chart-o"></i>
+                                <h4>
+                                    Charts
+                                    <span class="label label-info">4</span>
+                                </h4>
+                            </a>
+                        </div>
+                        <div class="col-xs-6 col-sm-4">
+                            <a class="bootcards-summary-item" href="#" style="padding-top:35px;">
+                                <i class="fa fa-3x fa-files-o"></i>
+                                <h4>
+                                    Files
+                                    <span class="label label-info">36</span>
+                                </h4>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-4">
+
+            <div class="panel panel-default bootcards-table">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Facturation client</h3>
+                </div>
+
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr class="active"><th></th><th>Montant</th><th>Nombre</th></tr>
+                    </thead>
+
+                    <tbody>
+                    <tr><td>Prévu</td><td>0</td><td>0</td></tr>
+                    <tr><td>Envoyé</td><td>0</td><td>0</td></tr>
+                    <tr><td>En retard</td><td>0</td><td>0</td></tr>
+                    <tr><td><strong>Total</strong></td><td><strong>0</strong></td><td><strong>0</strong></td></tr>
+                    </tbody>
+
+                </table>
+
+                <div class="panel-footer">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-4">
+
+            <div>
+
+                <div class="panel panel-default bootcards-chart">
+
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Chiffre d'affaire/Bénéfice (en k€)</h3>
+                    </div>
+
+                    <!--bar chart-->
+                    <div class="bootcards-chart-canvas" id="chartClosedSales"></div>
+
+                    <div class="panel-footer">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="bootcards-cards">
+
+        <div class="col-sm-4">
+
+            <div class="panel panel-default bootcards-summary" ng-controller="HomePageCalendarController">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Aujourd'hui</h3>
+                </div>
+
+                <div class="panel-body">
+                    <p class="calendar">
+                        {{date|date:'dd'}}
+                        <span class="saint">{{getSaints()}}</span>
+                        <span class="week">semaine {{date|date:'w'}}</span>
+                        <em>{{date|date:'MMM'}}</em>
+                    </p>
+                </div>
+
+                <div class="panel-footer">
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="col-sm-4">
+
+            <div class="panel panel-default bootcards-table">
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Facturation fournisseurs</h3>
+                </div>
+
+                <table class="table table-hover">
+
+                    <thead>
+                    <tr class="active"><th></th><th>Montant</th><th>Nombre</th></tr>
+                    </thead>
+
+                    <tbody>
+                    <tr><td>Prévu</td><td>0</td><td>0</td></tr>
+                    <tr><td>Reçu</td><td>0</td><td>0</td></tr>
+                    <tr><td>A payer</td><td>0</td><td>0</td></tr>
+                    <tr><td><strong>Total</strong></td><td><strong>0</strong></td><td><strong>0</strong></td></tr>
+                    </tbody>
+
+                </table>
+
+                <div class="panel-footer">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

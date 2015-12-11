@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Employés</h3>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" href="#/persons/{{person.id}}/employees/add">
+                <i class="fa fa-plus"></i><span>Ajouter</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" href="#/persons/{{person.id}}/employees/add">
+            <i class="fa fa-plus"></i><span>Ajouter</span>
+        </a>
+    </div>
+    <div class="list-group">
+        <a class="list-group-item" ng-repeat="employee in employees"
+           href="#/persons/{{person.id}}/employees/{{employee.id}}">
+            <label>{{employee.Employee.description}}</label>
+            <h4 class="list-group-item-heading">{{employee.Employee.company.Company.name}}</h4>
+        </a>
+    </div>
+</div>

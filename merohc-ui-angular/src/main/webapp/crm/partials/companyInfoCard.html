@@ -1,0 +1,26 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Détails de la société</h3>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" href="#/companies/{{companyIdEscaped}}/edit">
+                <i class="fa fa-pencil"></i>
+                <span>Edit</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" href="#/companies/{{companyIdEscaped}}/edit">
+            <i class="fa fa-pencil"></i>
+            <span>Edit</span>
+        </a>
+    </div>
+    <div class="list-group">
+        <div class="list-group-item">
+            <i class="fa fa-2x fa-building-o pull-left"></i>
+            <label>Nom</label>
+            <h4 class="list-group-item-heading">{{company.name}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Type</label>
+            <h4 class="list-group-item-heading">{{company.type}}</h4>
+        </div>
+    </div>
+</div>

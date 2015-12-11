@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!--parent>
+    <groupId>org.nuiton</groupId>
+    <artifactId>chorempom</artifactId>
+    <version>1.8.1</version>
+  </parent-->
+
+  <groupId>org.chorem</groupId>
+  <artifactId>merohc</artifactId>
+  <version>0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>Merhoc</name>
+  <description>Project management</description>
+  <url>http://chorem.chorem.org</url>
+  <inceptionYear>2011</inceptionYear>
+  <licenses>
+    <license>
+      <name>GNU Affero General Public License version 3</name>
+      <url>http://www.gnu.org/licenses/agpl.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>ymartel</id>
+      <name>Yannick Martel</name>
+      <email>martel@codelutin.com</email>
+      <organization>CodeLutin</organization>
+      <organizationUrl>http://www.codelutin.com/</organizationUrl>
+      <timezone>Europe/Paris</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+
+    <developer>
+      <id>jcouteau</id>
+      <name>Jean Couteau</name>
+      <email>couteau@codelutin.com</email>
+      <organization>CodeLutin</organization>
+      <organizationUrl>http://www.codelutin.com/</organizationUrl>
+      <timezone>Europe/Paris</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <modules>
+    <module>merohc-entities</module>
+    <module>merohc-rest</module>
+    <module>merohc-ui-angular</module>
+  </modules>
+
+  <scm>
+    <connection>scm:git:https://github.com/kootox/merohc.git</connection>
+    <developerConnection>
+      scm:git:https://github.com/kootox/merohc.git
+    </developerConnection>
+    <url>https://github.com/kootox/merohc.git</url>
+  </scm>
+
+  <properties>
+
+    <projectId>merhoc</projectId>
+
+    <guavaVersion>18.0</guavaVersion>
+    <gsonVersion>2.3.1</gsonVersion>
+    <opencsvVersion>2.3</opencsvVersion>
+    <slf4jVersion>1.7.10</slf4jVersion>
+    <javaxMailVersion>1.5.0-b01</javaxMailVersion>
+    <servletApiVersion>3.0-alpha-1</servletApiVersion>
+    <jspApiVersion>2.0</jspApiVersion>
+    <h2Version>1.4.185</h2Version>
+    <jstlVersion>1.2</jstlVersion>
+    <webmotionVersion>2.5</webmotionVersion>
+    <processPluginVersion>1.1</processPluginVersion>
+    <eugenePluginVersion>2.13</eugenePluginVersion>
+    <sitePluginVersion>3.3</sitePluginVersion>
+    <nuitonCsvVersion>3.0-rc-4</nuitonCsvVersion>
+    <nuitonUtilsVersion>3.0-rc-8</nuitonUtilsVersion>
+    <nuitonI18nVersion>3.3</nuitonI18nVersion>
+    <nuitonConfigVersion>3.0-rc-2</nuitonConfigVersion>
+    <nuitonWebVersion>1.17</nuitonWebVersion>
+    <wikittyVersion>3.11</wikittyVersion>
+    <commonsCollectionsVersion>3.2.1</commonsCollectionsVersion>
+    <commonsLoggingVersion>1.2</commonsLoggingVersion>
+    <junitVersion>4.12</junitVersion>
+    <topiaVersion>3.0</topiaVersion>
+    <hibernateVersion>4.3.7.Final</hibernateVersion>
+
+    <nuitonjsWro.version>1.0.3</nuitonjsWro.version>
+    <nuitonjsAngularjs.version>1.3.2-1</nuitonjsAngularjs.version>
+    <nuitonjsJquery.version>2.1.1-1</nuitonjsJquery.version>
+    <nuitonjsJqueryui.version>1.11.2-1</nuitonjsJqueryui.version>
+    <nuitonjsJqplot.version>1.0.8r1250-1</nuitonjsJqplot.version>
+    <nuitonjsBootstrap.version>3.2.0-1</nuitonjsBootstrap.version>
+
+    <!-- license to use  -->
+    <license.licenseName>agpl_v3</license.licenseName>
+
+    <!-- Java Version -->
+    <javaVersion>1.7</javaVersion>
+    <signatureArtifactId>java17</signatureArtifactId>
+    <signatureVersion>1.0</signatureVersion>
+  </properties>
+
+  <repositories>
+
+    <repository>
+      <id>chorem-group</id>
+      <url>http://nexus.nuiton.org/nexus/content/groups/chorem-group</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
+  </repositories>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>chorem-group</id>
+      <url>http://nexus.nuiton.org/nexus/content/groups/chorem-group</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+
+  <dependencyManagement>
+    <dependencies>
+
+
+      <dependency>
+        <groupId>org.nuiton.topia</groupId>
+        <artifactId>topia-persistence</artifactId>
+        <version>${topiaVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.nuiton.topia</groupId>
+        <artifactId>topia-service-flyway</artifactId>
+        <version>${topiaVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jstl</artifactId>
+        <version>${jstlVersion}</version>
+        <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>net.sf.opencsv</groupId>
+        <artifactId>opencsv</artifactId>
+        <version>${opencsvVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.nuiton</groupId>
+        <artifactId>nuiton-utils</artifactId>
+        <version>${nuitonUtilsVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.nuiton</groupId>
+        <artifactId>nuiton-config</artifactId>
+        <version>${nuitonConfigVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.nuiton</groupId>
+        <artifactId>nuiton-csv</artifactId>
+        <version>${nuitonCsvVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.nuiton.i18n</groupId>
+        <artifactId>nuiton-i18n</artifactId>
+        <version>${nuitonI18nVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>${javaxMailVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${servletApiVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>jsp-api</artifactId>
+        <version>${jspApiVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4jVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${slf4jVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <version>${h2Version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.nuiton.js</groupId>
+        <artifactId>nuiton-js-wro</artifactId>
+        <version>${nuitonjsWro.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.nuiton.js</groupId>
+        <artifactId>nuiton-js-angularjs</artifactId>
+        <version>${nuitonjsAngularjs.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.nuiton.js</groupId>
+        <artifactId>nuiton-js-jquery</artifactId>
+        <version>${nuitonjsJquery.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.nuiton.js</groupId>
+        <artifactId>nuiton-js-jquery-ui</artifactId>
+        <version>${nuitonjsJqueryui.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.nuiton.js</groupId>
+        <artifactId>nuiton-js-jqplot</artifactId>
+        <version>${nuitonjsJqplot.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.nuiton.js</groupId>
+        <artifactId>nuiton-js-bootstrap</artifactId>
+        <version>${nuitonjsBootstrap.version}</version>
+        <scope>runtime</scope>
+      </dependency>
+      <!-- <dependency>
+        <groupId>org.nuiton.js</groupId>
+        <artifactId>nuiton-js-jquery-tokeninput</artifactId>
+        <version>1.6.0.0-1-SNAPSHOT</version>
+      </dependency> -->
+
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>${gsonVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.3.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>2.4</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>${commonsLoggingVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>${commonsCollectionsVersion}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>1.9.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>18.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>1.2.17</version>
+      </dependency>
+
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junitVersion}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${hibernateVersion}</version>
+      </dependency>
+
+    </dependencies>
+
+  </dependencyManagement>
+
+  <build>
+    <!--<resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*</include>
+        </includes>
+        <filtering>true</filtering>
+      </resource>
+    </resources>-->
+    <pluginManagement>
+      <plugins>
+
+        <!-- processor plugin -->
+        <plugin>
+          <groupId>org.nuiton.processor</groupId>
+          <artifactId>maven-processor-plugin</artifactId>
+          <version>${processPluginVersion}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.nuiton.eugene</groupId>
+          <artifactId>eugene-maven-plugin</artifactId>
+          <version>${eugenePluginVersion}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.nuiton.i18n</groupId>
+          <artifactId>i18n-maven-plugin</artifactId>
+          <version>${nuitonI18nVersion}</version>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>

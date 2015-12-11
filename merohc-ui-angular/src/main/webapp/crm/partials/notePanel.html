@@ -1,0 +1,30 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Détails de la note</h3>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" href="#/crm/note/{{note.id}}/edit">
+                <i class="fa fa-pencil"></i>
+                <span>Edit</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" href="#/crm/note/{{note.id}}/edit">
+            <i class="fa fa-pencil"></i>
+            <span>Edit</span>
+        </a>
+    </div>
+    <div class="list-group">
+        <div class="list-group-item">
+            <i class="fa fa-2x fa-comment pull-left"></i>
+            <label>Date</label>
+            <h4 class="list-group-item-heading">{{note.Note.date | date : dd/MM/yyy}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Title</label>
+            <h4 class="list-group-item-heading">{{note.Note.title}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Content</label>
+            <h4 class="list-group-item-heading">{{note.Note.content}}</h4>
+        </div>
+    </div>
+</div>
