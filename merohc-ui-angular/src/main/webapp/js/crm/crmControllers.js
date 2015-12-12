@@ -19,7 +19,6 @@ merohcCRMControllers.controller('CompanyListController', ['$scope', '$http', '$l
   $scope.selectItem=function(selectedCompany){
     $scope.selectedItem = selectedCompany;
     $state.go('crm.companies.view', { companyId: selectedCompany.id });
-    //$state.go('crm.companies.view');
   };
 
   $scope.selectItemById=function(id){
@@ -63,13 +62,17 @@ merohcCRMControllers.controller('CompanyListController', ['$scope', '$http', '$l
   }
 
   $scope.deleteItem = function(oldItem) {
-    var index = $scope.items.indexOf(oldItem);
 
-    if (index > -1) {
-        $scope.items.splice(index, 1);
+    for (var index in $scope.items) {
+      var company = $scope.items[index];
+      if (company.id===oldItem.id){
+        if (index > -1) {
+          $scope.items.splice(index, 1);
+        }
+      }
     }
 
-    $scope.filter();
+    $state.go("crm.companies");
   }
 
   $scope.refresh=function(){
@@ -88,15 +91,27 @@ merohcCRMControllers.controller('CompanyDetailController',
     function ($scope, $http, $state, merohcConfig){
 
   $scope.companyId=$state.params.companyId;
-  $scope.companyIdEscaped=encodeURIComponent($scope.companyId);
 
   $scope.updateCompany=function(){
-    if ($scope.companyId && $scope.companyId.includes('#')){
-      $http.get(merohcConfig.BASE_URL + '/company/'+$scope.companyIdEscaped).success(function(data){
+    if ($scope.companyId){
+      $http.get(merohcConfig.BASE_URL + '/company/'+encodeURIComponent($scope.companyId)).success(function(data){
         $scope.company = data;
       });
     }
   };
+
+  $scope.deleteCompany=function(){
+    //FIXME JC 151212 - Should ask confirmation for deletion
+    if ($scope.companyId){
+      $http.delete(merohcConfig.BASE_URL + '/company/'+encodeURIComponent($scope.companyId)).success(function(data){
+        $scope.deleteItem($scope.company);
+      });
+    }
+  }
+
+  $scope.editCompany=function(){
+    $state.go('crm.companies.edit', { companyId: $scope.companyId });
+  }
 
   //get back contact details for the company
   /*$scope.updateContactDetails=function(){
@@ -172,7 +187,7 @@ merohcCRMControllers.controller('CompanyEditController', ['$scope', '$http', '$w
   $scope.companyId=$state.params.companyId;
 
   $scope.updateCompany=function(){
-    if ($scope.companyId && $scope.companyId.includes('#')){
+    if ($scope.companyId){
       $http.get(merohcConfig.BASE_URL + '/company/'+encodeURIComponent($scope.companyId)).success(function(data){
         $scope.company = data;
         $scope.oldCompany = angular.copy(data);
@@ -193,7 +208,7 @@ merohcCRMControllers.controller('CompanyEditController', ['$scope', '$http', '$w
             $scope.updateItem($scope.oldCompany, data);
             $scope.$parent.selectedItem=data;
 
-            $window.history.back();
+            $state.go('^')
           });
   };
 

@@ -2,12 +2,32 @@
     <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">Détails de la société</h3>
         <div class="btn-group pull-right visible-xs">
-            <a class="btn btn-primary" href="#/companies/{{companyIdEscaped}}/edit">
+            <a class="btn btn-danger" ng-click="deleteCompany()">
+                <i class="fa fa-trash"></i>
+                <span>Delete</span>
+            </a>
+        </div>
+        <a class="btn btn-danger pull-right hidden-xs" ng-click="deleteCompany()">
+            <i class="fa fa-trash"></i>
+            <span>Delete</span>
+        </a>
+        <!--div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" href="#/companies/{{company.id}}/edit">
                 <i class="fa fa-pencil"></i>
                 <span>Edit</span>
             </a>
         </div>
-        <a class="btn btn-primary pull-right hidden-xs" href="#/companies/{{companyIdEscaped}}/edit">
+        <a class="btn btn-primary pull-right hidden-xs" href="#/companies/{{company.id}}/edit">
+            <i class="fa fa-pencil"></i>
+            <span>Edit</span>
+        </a-->
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" ng-click="editCompany()">
+                <i class="fa fa-pencil"></i>
+                <span>Edit</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" ng-click="editCompany()">
             <i class="fa fa-pencil"></i>
             <span>Edit</span>
         </a>
