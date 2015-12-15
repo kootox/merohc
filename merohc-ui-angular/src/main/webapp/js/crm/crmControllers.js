@@ -59,6 +59,7 @@ merohcCRMControllers.controller('CompanyListController', ['$scope', '$http', '$l
   $scope.addItem = function(newItem) {
     $scope.items.push(newItem);
     $scope.filter();
+    $state.go('crm.companies.view', { companyId: newItem.id })
   }
 
   $scope.deleteItem = function(oldItem) {
@@ -171,8 +172,6 @@ merohcCRMControllers.controller('CompanyCreateController', ['$scope', '$http', '
             //update company and selectedItem in parent scope
             $scope.addItem(data);
             $scope.$parent.selectedItem=data;
-
-            $window.history.back();
           });
   };
 
