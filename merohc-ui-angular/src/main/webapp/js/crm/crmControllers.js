@@ -71,8 +71,8 @@ merohcCRMControllers.controller('CompanyListController', ['$scope', '$http', '$l
         }
       }
     }
-
     $state.go("crm.companies");
+    $scope.refresh();
   }
 
   $scope.refresh=function(){
