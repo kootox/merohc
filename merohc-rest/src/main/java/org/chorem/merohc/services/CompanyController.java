@@ -130,5 +130,62 @@ public class CompanyController {
         return dto;
     }
 
+    @RequestMapping(value="/v1/company/{companyId:.+}/employee/{id:.+}", method= RequestMethod.GET)
+    public EmployeeDTO getEmployee(@PathVariable String companyId,
+                                   @PathVariable String id) {
+
+        EmployeeDTO dto = null;
+
+        try {
+            Employee employee = employeeDao.forTopiaIdEquals(id).findAny();
+            Company company = companyDao.forTopiaIdEquals(companyId).findAny();
+            if (employee.getCompany().equals(company)) {
+                dto = new EmployeeDTO(employee);
+            }
+        } catch (TopiaNoResultException tnre) {
+            //Entity does not already exist, so nothing to do
+        }
+
+        return dto;
+    }
+
+    @RequestMapping(value="/v1/company/{companyId}/employee", method= RequestMethod.POST)
+    public EmployeeDTO editEmployee(@PathVariable String companyId,
+                                    @RequestParam String firstName,
+                                    @RequestParam String lastName,
+                                    @RequestParam String id) {
+
+        Company company = companyDao.forTopiaIdEquals(companyId).findAnyOrNull();
+
+        Employee employee = employeeDao.forTopiaIdEquals(id).findAnyOrNull();
+
+        if (employee != null && company != null){
+            employee.setFirstName(firstName);
+            employee.setLastName(lastName);
+            employee.setCompany(company);
+        } else {
+            //FIXME JC151216 Should throw an exception
+        }
+
+        persistenceContext.commit();
+        EmployeeDTO dto = new EmployeeDTO(employee);
+        return dto;
+    }
+
+    @RequestMapping(value="/v1/company/{companyId:.+}/employee/{id:.+}", method= RequestMethod.DELETE)
+    public void deleteEmployee(@PathVariable String companyId,
+                               @PathVariable String id) {
+        try {
+            Employee employee = employeeDao.forTopiaIdEquals(id).findAny();
+            Company company = companyDao.forTopiaIdEquals(companyId).findAny();
+            if (employee.getCompany().equals(company)) {
+                employeeDao.delete(employee);
+                persistenceContext.commit();
+            }
+        } catch (TopiaNoResultException tnre) {
+            //Entity does not already exist, so nothing to do
+        }
+    }
+
 
 }

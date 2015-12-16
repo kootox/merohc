@@ -229,15 +229,91 @@ merohcCRMControllers.controller('EmployeeCreateController', ['$scope', '$http', 
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
          })
           .success(function(data) {
-            $state.go('crm.companies.view', { companyId: $stateParams.companyId })
+            $state.go('crm.companies.view', { companyId: $stateParams.companyId });
           });
   };
 
   $scope.cancel = function(){
-    $state.go('crm.companies.view', { companyId: $stateParams.companyId })
+    $state.go('crm.companies.view', { companyId: $stateParams.companyId });
   }
 
 }]);
+
+merohcCRMControllers.controller('EmployeeEditController', ['$scope', '$http', '$state', '$stateParams', 'merohc-config',function ($scope, $http, $state, $stateParams, merohcConfig) {
+
+  $scope.companyId=$state.params.companyId;
+  $scope.employeeId=$state.params.employeeId;
+
+  $scope.saveEmployee = function(){
+    $http({
+            method  : 'POST',
+            url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/employee',
+            data    : $.param($scope.employee),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+         })
+          .success(function(data) {
+            $state.go('crm.companies.view', { companyId: $stateParams.companyId });
+          });
+  };
+
+  $scope.updateEmployee=function(){
+      if ($scope.companyId && $scope.employeeId){
+        $http.get(merohcConfig.BASE_URL + '/company/'+$scope.companyId+'/employee/'+$scope.employeeId).success(function(data){
+          $scope.employee = data;
+        });
+      }
+    };
+
+  $scope.cancel = function(){
+    $state.go('crm.companies.view', { companyId: $stateParams.companyId });
+  }
+
+  $scope.updateEmployee();
+
+}]);
+
+merohcCRMControllers.controller('EmployeeDetailController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig){
+
+  $scope.companyId=$state.params.companyId;
+  $scope.employeeId=$state.params.employeeId;
+
+  $scope.updateEmployee=function(){
+    if ($scope.companyId && $scope.employeeId){
+      $http.get(merohcConfig.BASE_URL + '/company/'+$scope.companyId+'/employee/'+$scope.employeeId).success(function(data){
+        $scope.employee = data;
+      });
+    }
+  };
+
+  $scope.deleteEmployee=function(){
+    //FIXME JC 151216 - Should ask confirmation for deletion
+    if ($scope.companyId && $scope.employeeId){
+      $http.delete(merohcConfig.BASE_URL + '/company/'+$scope.companyId+'/employee/'+$scope.employeeId).success(function(data){
+        $state.go('crm.companies.view', {companyId : $scope.companyId});
+      });
+    }
+  }
+
+  $scope.editEmployee=function(){
+    $state.go('crm.companies.editEmployee', { companyId: $scope.companyId, employeeId: $scope.employeeId });
+  }
+
+  $scope.updateEmployee();
+
+}]);
+
+
+
+
+
+
+
+
+
+
+
 
 merohcCRMControllers.controller('PersonListController', function ($scope, $http, $location, $state) {
 

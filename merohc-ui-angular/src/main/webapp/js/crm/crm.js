@@ -40,6 +40,18 @@ merohcCRM.config(
         controller: 'EmployeeCreateController'
       })
 
+      .state('crm.companies.viewEmployee', {
+        url: '/:companyId/employee/:employeeId',
+        templateUrl: 'crm/partials/employeeViewCard.html',
+        controller: 'EmployeeDetailController'
+      })
+
+      .state('crm.companies.editEmployee', {
+        url: '/:companyId/employee/:employeeId/edit',
+        templateUrl: 'crm/partials/employeeEditCard.html',
+        controller: 'EmployeeEditController'
+      })
+
       .state('crm.companies.viewnote', {
         url: '/:companyId/notes/:noteId',
         templateUrl: 'crm/partials/notePanel.html',
