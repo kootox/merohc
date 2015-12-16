@@ -130,19 +130,19 @@ merohcCRMControllers.controller('CompanyDetailController',
         $scope.notes = data;
       });
     }
-  };
+  };*/
 
   //get back employees for the company
   $scope.updateEmployees=function(){
     if ($scope.companyId){
-      $http.get('services/v1/Employee?field=company&value='+$scope.companyId).success(function(data){
+      $http.get(merohcConfig.BASE_URL + '/company/'+encodeURIComponent($scope.companyId)+'/employee').success(function(data){
         $scope.employees = data;
       });
     }
   };
 
   //get back invoices for the company
-  $scope.updateInvoices=function(){
+  /*$scope.updateInvoices=function(){
     if ($scope.companyId){
       $http.get('services/v1/Invoice?field=payer&value='+$scope.companyId).success(function(data){
         $scope.invoices = data;
@@ -152,9 +152,9 @@ merohcCRMControllers.controller('CompanyDetailController',
 
   $scope.updateCompany();
   /*$scope.updateContactDetails();
-  $scope.updateNotes();
+  $scope.updateNotes();*/
   $scope.updateEmployees();
-  $scope.updateInvoices();*/
+  /*$scope.updateInvoices();*/
 
 }]);
 
@@ -216,6 +216,26 @@ merohcCRMControllers.controller('CompanyEditController', ['$scope', '$http', '$w
   }
 
   $scope.updateCompany();
+
+}]);
+
+merohcCRMControllers.controller('EmployeeCreateController', ['$scope', '$http', '$state', '$stateParams', 'merohc-config',function ($scope, $http, $state, $stateParams, merohcConfig) {
+
+  $scope.saveEmployee = function(){
+    $http({
+            method  : 'PUT',
+            url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/employee/add',
+            data    : $.param($scope.employee),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+         })
+          .success(function(data) {
+            $state.go('crm.companies.view', { companyId: $stateParams.companyId })
+          });
+  };
+
+  $scope.cancel = function(){
+    $state.go('crm.companies.view', { companyId: $stateParams.companyId })
+  }
 
 }]);
 
