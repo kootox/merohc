@@ -158,7 +158,7 @@ merohcCRMControllers.controller('CompanyDetailController',
 
 }]);
 
-merohcCRMControllers.controller('CompanyCreateController', ['$scope', '$http', '$window', 'merohc-config',function ($scope, $http, $window, merohcConfig) {
+merohcCRMControllers.controller('CompanyCreateController', ['$scope', '$http', '$state', 'merohc-config',function ($scope, $http, $state, merohcConfig) {
 
   $scope.saveCompany = function(){
     $http({
@@ -176,12 +176,12 @@ merohcCRMControllers.controller('CompanyCreateController', ['$scope', '$http', '
   };
 
   $scope.cancel = function(){
-    $window.history.back();
+    $state.go('crm.companies');
   }
 
 }]);
 
-merohcCRMControllers.controller('CompanyEditController', ['$scope', '$http', '$window', '$state', 'merohc-config',function ($scope, $http, $window, $state, merohcConfig) {
+merohcCRMControllers.controller('CompanyEditController', ['$scope', '$http', '$state', 'merohc-config',function ($scope, $http, $state, merohcConfig) {
 
   $scope.companyId=$state.params.companyId;
 
@@ -212,7 +212,7 @@ merohcCRMControllers.controller('CompanyEditController', ['$scope', '$http', '$w
   };
 
   $scope.cancel = function(){
-    $window.history.back();
+    $state.go('crm.companies.view', {companyId : $scope.companyId});
   }
 
   $scope.updateCompany();
