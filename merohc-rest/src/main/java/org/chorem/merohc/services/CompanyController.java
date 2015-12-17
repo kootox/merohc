@@ -24,7 +24,7 @@ public class CompanyController {
     CompanyTopiaDao companyDao =
         persistenceContext.getCompanyDao();
 
-    EmployeeTopiaDao employeeDao = persistenceContext.getEmployeeDao();
+    ContactTopiaDao contactDao = persistenceContext.getContactDao();
 
     @RequestMapping("/v1/company")
     public List<CompanyDTO> listCompanies() {
@@ -85,21 +85,21 @@ public class CompanyController {
         return dto;
     }
 
-    @RequestMapping(value="/v1/company/{id}/employee", method= RequestMethod.GET)
-    public List<EmployeeDTO> getEmployees(@PathVariable String id) {
+    @RequestMapping(value="/v1/company/{id}/contact", method= RequestMethod.GET)
+    public List<ContactDTO> getContacts(@PathVariable String id) {
 
-        List<Employee> employees;
+        List<Contact> contacts;
 
-        List <EmployeeDTO> dtos = new ArrayList<EmployeeDTO>();
+        List <ContactDTO> dtos = new ArrayList<ContactDTO>();
 
         Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
 
         try {
-            employees = employeeDao.forCompanyEquals(company)
+            contacts = contactDao.forCompanyEquals(company)
                                    .findAll();
 
-            for (Employee employee:employees) {
-                dtos.add(new EmployeeDTO(employee));
+            for (Contact contact:contacts) {
+                dtos.add(new ContactDTO(contact));
             }
 
         } catch (TopiaQueryException eee) {
@@ -110,37 +110,37 @@ public class CompanyController {
         return dtos;
     }
 
-    @RequestMapping(value="/v1/company/{id}/employee/add", method= RequestMethod.PUT)
-    public EmployeeDTO addEmployee(@PathVariable String id,
-                                   @RequestParam String firstName,
-                                   @RequestParam String lastName) {
+    @RequestMapping(value="/v1/company/{id}/contact/add", method= RequestMethod.PUT)
+    public ContactDTO addContact(@PathVariable String id,
+                                 @RequestParam String firstName,
+                                 @RequestParam String lastName) {
 
         Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
 
-        Employee employee = employeeDao.create();
+        Contact contact = contactDao.create();
 
         if (company != null){
-            employee.setFirstName(firstName);
-            employee.setLastName(lastName);
-            employee.setCompany(company);
+            contact.setFirstName(firstName);
+            contact.setLastName(lastName);
+            contact.setCompany(company);
         }
 
         persistenceContext.commit();
-        EmployeeDTO dto = new EmployeeDTO(employee);
+        ContactDTO dto = new ContactDTO(contact);
         return dto;
     }
 
-    @RequestMapping(value="/v1/company/{companyId:.+}/employee/{id:.+}", method= RequestMethod.GET)
-    public EmployeeDTO getEmployee(@PathVariable String companyId,
-                                   @PathVariable String id) {
+    @RequestMapping(value="/v1/company/{companyId:.+}/contact/{id:.+}", method= RequestMethod.GET)
+    public ContactDTO getContact(@PathVariable String companyId,
+                                 @PathVariable String id) {
 
-        EmployeeDTO dto = null;
+        ContactDTO dto = null;
 
         try {
-            Employee employee = employeeDao.forTopiaIdEquals(id).findAny();
+            Contact contact = contactDao.forTopiaIdEquals(id).findAny();
             Company company = companyDao.forTopiaIdEquals(companyId).findAny();
-            if (employee.getCompany().equals(company)) {
-                dto = new EmployeeDTO(employee);
+            if (contact.getCompany().equals(company)) {
+                dto = new ContactDTO(contact);
             }
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
@@ -149,37 +149,37 @@ public class CompanyController {
         return dto;
     }
 
-    @RequestMapping(value="/v1/company/{companyId}/employee", method= RequestMethod.POST)
-    public EmployeeDTO editEmployee(@PathVariable String companyId,
-                                    @RequestParam String firstName,
-                                    @RequestParam String lastName,
-                                    @RequestParam String id) {
+    @RequestMapping(value="/v1/company/{companyId}/contact", method= RequestMethod.POST)
+    public ContactDTO editContact(@PathVariable String companyId,
+                                  @RequestParam String firstName,
+                                  @RequestParam String lastName,
+                                  @RequestParam String id) {
 
         Company company = companyDao.forTopiaIdEquals(companyId).findAnyOrNull();
 
-        Employee employee = employeeDao.forTopiaIdEquals(id).findAnyOrNull();
+        Contact contact = contactDao.forTopiaIdEquals(id).findAnyOrNull();
 
-        if (employee != null && company != null){
-            employee.setFirstName(firstName);
-            employee.setLastName(lastName);
-            employee.setCompany(company);
+        if (contact != null && company != null){
+            contact.setFirstName(firstName);
+            contact.setLastName(lastName);
+            contact.setCompany(company);
         } else {
             //FIXME JC151216 Should throw an exception
         }
 
         persistenceContext.commit();
-        EmployeeDTO dto = new EmployeeDTO(employee);
+        ContactDTO dto = new ContactDTO(contact);
         return dto;
     }
 
-    @RequestMapping(value="/v1/company/{companyId:.+}/employee/{id:.+}", method= RequestMethod.DELETE)
-    public void deleteEmployee(@PathVariable String companyId,
-                               @PathVariable String id) {
+    @RequestMapping(value="/v1/company/{companyId:.+}/contact/{id:.+}", method= RequestMethod.DELETE)
+    public void deleteContact(@PathVariable String companyId,
+                              @PathVariable String id) {
         try {
-            Employee employee = employeeDao.forTopiaIdEquals(id).findAny();
+            Contact contact = contactDao.forTopiaIdEquals(id).findAny();
             Company company = companyDao.forTopiaIdEquals(companyId).findAny();
-            if (employee.getCompany().equals(company)) {
-                employeeDao.delete(employee);
+            if (contact.getCompany().equals(company)) {
+                contactDao.delete(contact);
                 persistenceContext.commit();
             }
         } catch (TopiaNoResultException tnre) {

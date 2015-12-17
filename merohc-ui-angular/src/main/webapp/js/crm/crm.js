@@ -34,23 +34,30 @@ merohcCRM.config(
         controller: 'CompanyEditController'
       })
 
-      .state('crm.companies.createEmployee', {
-        url: '/:companyId/employee/add',
-        templateUrl:'crm/partials/employeeCreateCard.html',
-        controller: 'EmployeeCreateController'
+      .state('crm.companies.createContact', {
+        url: '/:companyId/contact/add',
+        templateUrl:'crm/partials/contactCreateCard.html',
+        controller: 'ContactCreateController'
       })
 
-      .state('crm.companies.viewEmployee', {
-        url: '/:companyId/employee/:employeeId',
-        templateUrl: 'crm/partials/employeeViewCard.html',
-        controller: 'EmployeeDetailController'
+      .state('crm.companies.viewContact', {
+        url: '/:companyId/contact/:contactId',
+        templateUrl: 'crm/partials/contactViewCard.html',
+        controller: 'ContactDetailController'
       })
 
-      .state('crm.companies.editEmployee', {
-        url: '/:companyId/employee/:employeeId/edit',
-        templateUrl: 'crm/partials/employeeEditCard.html',
-        controller: 'EmployeeEditController'
+      .state('crm.companies.editContact', {
+        url: '/:companyId/contact/:contactId/edit',
+        templateUrl: 'crm/partials/contactEditCard.html',
+        controller: 'ContactEditController'
       })
+
+
+
+
+
+
+
 
       .state('crm.companies.viewnote', {
         url: '/:companyId/notes/:noteId',

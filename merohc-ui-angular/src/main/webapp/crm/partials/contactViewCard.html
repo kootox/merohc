@@ -1,23 +1,23 @@
 <div class="panel panel-default">
     <div class="panel-heading clearfix">
-        <h3 class="panel-title pull-left">Détails de l'employé</h3>
+        <h3 class="panel-title pull-left">Détails du contact</h3>
         <div class="btn-group pull-right visible-xs">
-            <a class="btn btn-danger" ng-click="deleteEmployee()">
+            <a class="btn btn-danger" ng-click="deleteContact()">
                 <i class="fa fa-trash"></i>
                 <span>Delete</span>
             </a>
         </div>
-        <a class="btn btn-danger pull-right hidden-xs" ng-click="deleteEmployee()">
+        <a class="btn btn-danger pull-right hidden-xs" ng-click="deleteContact()">
             <i class="fa fa-trash"></i>
             <span>Delete</span>
         </a>
         <div class="btn-group pull-right visible-xs">
-            <a class="btn btn-primary" ng-click="editEmployee()">
+            <a class="btn btn-primary" ng-click="editContact()">
                 <i class="fa fa-pencil"></i>
                 <span>Edit</span>
             </a>
         </div>
-        <a class="btn btn-primary pull-right hidden-xs" ng-click="editEmployee()">
+        <a class="btn btn-primary pull-right hidden-xs" ng-click="editContact()">
             <i class="fa fa-pencil"></i>
             <span>Edit</span>
         </a>
@@ -26,11 +26,11 @@
         <div class="list-group-item">
             <i class="fa fa-2x fa-building-o pull-left"></i>
             <label>Nom</label>
-            <h4 class="list-group-item-heading">{{employee.lastName}}</h4>
+            <h4 class="list-group-item-heading">{{contact.lastName}}</h4>
         </div>
         <div class="list-group-item">
             <label>Prénom</label>
-            <h4 class="list-group-item-heading">{{employee.firstName}}</h4>
+            <h4 class="list-group-item-heading">{{contact.firstName}}</h4>
         </div>
     </div>
 </div>
