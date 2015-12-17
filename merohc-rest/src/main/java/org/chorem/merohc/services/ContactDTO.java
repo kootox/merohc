@@ -12,6 +12,7 @@ public class ContactDTO {
     protected String lastName;
     protected Boolean active;
     protected String companyId;
+    protected String description;
 
     public ContactDTO(Contact contact){
         super();
@@ -20,6 +21,7 @@ public class ContactDTO {
         this.lastName = contact.getLastName();
         this.active = contact.getActive();
         this.companyId = contact.getCompany().getTopiaId();
+        this.description = contact.getDescription();
     }
 
 
@@ -61,5 +63,13 @@ public class ContactDTO {
 
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -114,7 +114,8 @@ public class CompanyController {
     public ContactDTO addContact(@PathVariable String id,
                                  @RequestParam String firstName,
                                  @RequestParam String lastName,
-                                 @RequestParam Boolean active) {
+                                 @RequestParam Boolean active,
+                                 @RequestParam String description) {
 
         Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
 
@@ -125,6 +126,7 @@ public class CompanyController {
             contact.setLastName(lastName);
             contact.setCompany(company);
             contact.setActive(active);
+            contact.setDescription(description);
         }
 
         persistenceContext.commit();
@@ -156,7 +158,8 @@ public class CompanyController {
                                   @RequestParam String firstName,
                                   @RequestParam String lastName,
                                   @RequestParam String id,
-                                  @RequestParam Boolean active) {
+                                  @RequestParam Boolean active,
+                                  @RequestParam String description) {
 
         Company company = companyDao.forTopiaIdEquals(companyId).findAnyOrNull();
 
@@ -167,6 +170,7 @@ public class CompanyController {
             contact.setLastName(lastName);
             contact.setCompany(company);
             contact.setActive(active);
+            contact.setDescription(description);
         } else {
             //FIXME JC151216 Should throw an exception
         }
