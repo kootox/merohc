@@ -113,7 +113,8 @@ public class CompanyController {
     @RequestMapping(value="/v1/company/{id}/contact/add", method= RequestMethod.PUT)
     public ContactDTO addContact(@PathVariable String id,
                                  @RequestParam String firstName,
-                                 @RequestParam String lastName) {
+                                 @RequestParam String lastName,
+                                 @RequestParam Boolean active) {
 
         Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
 
@@ -123,6 +124,7 @@ public class CompanyController {
             contact.setFirstName(firstName);
             contact.setLastName(lastName);
             contact.setCompany(company);
+            contact.setActive(active);
         }
 
         persistenceContext.commit();
@@ -153,7 +155,8 @@ public class CompanyController {
     public ContactDTO editContact(@PathVariable String companyId,
                                   @RequestParam String firstName,
                                   @RequestParam String lastName,
-                                  @RequestParam String id) {
+                                  @RequestParam String id,
+                                  @RequestParam Boolean active) {
 
         Company company = companyDao.forTopiaIdEquals(companyId).findAnyOrNull();
 
@@ -163,6 +166,7 @@ public class CompanyController {
             contact.setFirstName(firstName);
             contact.setLastName(lastName);
             contact.setCompany(company);
+            contact.setActive(active);
         } else {
             //FIXME JC151216 Should throw an exception
         }
