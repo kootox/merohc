@@ -24,17 +24,17 @@
     </div>
     <div class="list-group">
         <div class="list-group-item">
-            <i class="fa fa-2x fa-building-o pull-left"></i>
+            <i ng-if = "contact.active" class="fa fa-3x fa-user pull-left"></i>
+            <span ng-if = "!contact.active" class="fa-stack fa-lg">
+                <i class="fa fa-user fa-stack-2x"></i>
+                <i class="fa fa-ban fa-stack-2x text-danger"></i>
+            </span>
             <label>Nom</label>
             <h4 class="list-group-item-heading">{{contact.lastName}}</h4>
         </div>
         <div class="list-group-item">
             <label>Prénom</label>
             <h4 class="list-group-item-heading">{{contact.firstName}}</h4>
-        </div>
-        <div class="list-group-item">
-            <label>Actif</label>
-            <h4 class="list-group-item-heading">{{contact.active}}</h4>
         </div>
     </div>
 </div>

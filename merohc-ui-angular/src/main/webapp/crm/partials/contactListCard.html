@@ -13,6 +13,11 @@
     <div class="list-group">
         <a class="list-group-item" ng-repeat="contact in contacts"
            href="#/crm/companies/{{company.id}}/contact/{{contact.id}}">
+            <i ng-if = "contact.active" class="fa fa-3x fa-user pull-left"></i>
+            <span ng-if = "!contact.active" class="fa-stack fa-lg">
+                <i class="fa fa-user fa-stack-2x"></i>
+                <i class="fa fa-ban fa-stack-2x text-danger"></i>
+            </span>
             <label>{{contact.description}}</label>
             <h4 class="list-group-item-heading">{{contact.firstName}} {{contact.lastName}}</h4>
         </a>
