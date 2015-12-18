@@ -40,7 +40,7 @@ public class CompanyController {
         return dtos;
     }
 
-    @RequestMapping(value="/v1/company/add", method= RequestMethod.PUT)
+    @RequestMapping(value="/v1/company", method= RequestMethod.PUT)
     public CompanyDTO addCompany(@RequestParam(value="name") String name,
                                  @RequestParam(value="type", required = false) String type) {
         Company companyToStore = companyDao.create();
@@ -110,7 +110,7 @@ public class CompanyController {
         return dtos;
     }
 
-    @RequestMapping(value="/v1/company/{id}/contact/add", method= RequestMethod.PUT)
+    @RequestMapping(value="/v1/company/{id}/contact", method= RequestMethod.PUT)
     public ContactDTO addContact(@PathVariable String id,
                                  @RequestParam String firstName,
                                  @RequestParam String lastName,
@@ -134,18 +134,14 @@ public class CompanyController {
         return dto;
     }
 
-    @RequestMapping(value="/v1/company/{companyId:.+}/contact/{id:.+}", method= RequestMethod.GET)
-    public ContactDTO getContact(@PathVariable String companyId,
-                                 @PathVariable String id) {
+    @RequestMapping(value="/v1/contact/{id:.+}", method= RequestMethod.GET)
+    public ContactDTO getContact(@PathVariable String id) {
 
         ContactDTO dto = null;
 
         try {
             Contact contact = contactDao.forTopiaIdEquals(id).findAny();
-            Company company = companyDao.forTopiaIdEquals(companyId).findAny();
-            if (contact.getCompany().equals(company)) {
-                dto = new ContactDTO(contact);
-            }
+            dto = new ContactDTO(contact);
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }
@@ -153,22 +149,18 @@ public class CompanyController {
         return dto;
     }
 
-    @RequestMapping(value="/v1/company/{companyId}/contact", method= RequestMethod.POST)
-    public ContactDTO editContact(@PathVariable String companyId,
-                                  @RequestParam String firstName,
+    @RequestMapping(value="/v1/contact", method= RequestMethod.POST)
+    public ContactDTO editContact(@RequestParam String firstName,
                                   @RequestParam String lastName,
                                   @RequestParam String id,
                                   @RequestParam Boolean active,
                                   @RequestParam String description) {
 
-        Company company = companyDao.forTopiaIdEquals(companyId).findAnyOrNull();
-
         Contact contact = contactDao.forTopiaIdEquals(id).findAnyOrNull();
 
-        if (contact != null && company != null){
+        if (contact != null){
             contact.setFirstName(firstName);
             contact.setLastName(lastName);
-            contact.setCompany(company);
             contact.setActive(active);
             contact.setDescription(description);
         } else {
@@ -180,20 +172,14 @@ public class CompanyController {
         return dto;
     }
 
-    @RequestMapping(value="/v1/company/{companyId:.+}/contact/{id:.+}", method= RequestMethod.DELETE)
-    public void deleteContact(@PathVariable String companyId,
-                              @PathVariable String id) {
+    @RequestMapping(value="/v1/contact/{id:.+}", method= RequestMethod.DELETE)
+    public void deleteContact(@PathVariable String id) {
         try {
             Contact contact = contactDao.forTopiaIdEquals(id).findAny();
-            Company company = companyDao.forTopiaIdEquals(companyId).findAny();
-            if (contact.getCompany().equals(company)) {
-                contactDao.delete(contact);
-                persistenceContext.commit();
-            }
+            contactDao.delete(contact);
+            persistenceContext.commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }
     }
-
-
 }

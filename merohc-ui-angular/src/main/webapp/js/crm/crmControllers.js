@@ -163,7 +163,7 @@ merohcCRMControllers.controller('CompanyCreateController', ['$scope', '$http', '
   $scope.saveCompany = function(){
     $http({
             method  : 'PUT',
-            url     : merohcConfig.BASE_URL + '/company/add',
+            url     : merohcConfig.BASE_URL + '/company',
             data    : $.param($scope.company),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
          })
@@ -172,6 +172,8 @@ merohcCRMControllers.controller('CompanyCreateController', ['$scope', '$http', '
             //update company and selectedItem in parent scope
             $scope.addItem(data);
             $scope.$parent.selectedItem=data;
+
+            $state.go('crm.companies.view', {companyId : data.id});
           });
   };
 
@@ -207,7 +209,7 @@ merohcCRMControllers.controller('CompanyEditController', ['$scope', '$http', '$s
             $scope.updateItem($scope.oldCompany, data);
             $scope.$parent.selectedItem=data;
 
-            $state.go('^')
+            $state.go('crm.companies.view', {companyId : $scope.companyId});
           });
   };
 
@@ -224,12 +226,12 @@ merohcCRMControllers.controller('ContactCreateController', ['$scope', '$http', '
   $scope.saveContact = function(){
     $http({
             method  : 'PUT',
-            url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/contact/add',
+            url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/contact',
             data    : $.param($scope.contact),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
          })
           .success(function(data) {
-            $state.go('crm.companies.view', { companyId: $stateParams.companyId });
+            $state.go('crm.companies.viewContact', { companyId: $state.params.companyId, contactId: data.id });
           });
   };
 
@@ -239,33 +241,32 @@ merohcCRMControllers.controller('ContactCreateController', ['$scope', '$http', '
 
 }]);
 
-merohcCRMControllers.controller('ContactEditController', ['$scope', '$http', '$state', '$stateParams', 'merohc-config',function ($scope, $http, $state, $stateParams, merohcConfig) {
+merohcCRMControllers.controller('ContactEditController', ['$scope', '$http', '$state', 'merohc-config',function ($scope, $http, $state, merohcConfig) {
 
-  $scope.companyId=$state.params.companyId;
   $scope.contactId=$state.params.contactId;
 
   $scope.saveContact = function(){
     $http({
             method  : 'POST',
-            url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/contact',
+            url     : merohcConfig.BASE_URL + '/contact',
             data    : $.param($scope.contact),  // pass in data as strings
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
          })
           .success(function(data) {
-            $state.go('crm.companies.view', { companyId: $stateParams.companyId });
+            $state.go('crm.companies.viewContact', { companyId: $state.params.companyId, contactId: $state.params.contactId });
           });
   };
 
   $scope.updateContact=function(){
-      if ($scope.companyId && $scope.contactId){
-        $http.get(merohcConfig.BASE_URL + '/company/'+$scope.companyId+'/contact/'+$scope.contactId).success(function(data){
+      if ($scope.contactId){
+        $http.get(merohcConfig.BASE_URL + '/contact/'+$scope.contactId).success(function(data){
           $scope.contact = data;
         });
       }
     };
 
   $scope.cancel = function(){
-    $state.go('crm.companies.view', { companyId: $stateParams.companyId });
+    $state.go('crm.companies.viewContact', { companyId: $state.params.companyId, contactId: $state.params.contactId });
   }
 
   $scope.updateContact();
@@ -281,7 +282,7 @@ merohcCRMControllers.controller('ContactDetailController',
 
   $scope.updateContact=function(){
     if ($scope.companyId && $scope.contactId){
-      $http.get(merohcConfig.BASE_URL + '/company/'+$scope.companyId+'/contact/'+$scope.contactId).success(function(data){
+      $http.get(merohcConfig.BASE_URL + '/contact/'+$scope.contactId).success(function(data){
         $scope.contact = data;
       });
     }
@@ -290,7 +291,7 @@ merohcCRMControllers.controller('ContactDetailController',
   $scope.deleteContact=function(){
     //FIXME JC 151216 - Should ask confirmation for deletion
     if ($scope.companyId && $scope.contactId){
-      $http.delete(merohcConfig.BASE_URL + '/company/'+$scope.companyId+'/contact/'+$scope.contactId).success(function(data){
+      $http.delete(merohcConfig.BASE_URL + '/contact/'+$scope.contactId).success(function(data){
         $state.go('crm.companies.view', {companyId : $scope.companyId});
       });
     }
