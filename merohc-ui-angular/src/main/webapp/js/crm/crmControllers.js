@@ -114,17 +114,17 @@ merohcCRMControllers.controller('CompanyDetailController',
     $state.go('crm.companies.edit', { companyId: $scope.companyId });
   }
 
-  //get back contact details for the company
-  /*$scope.updateContactDetails=function(){
+  //get back emails for the company
+  $scope.updateEmails=function(){
     if ($scope.companyId){
-      $http.get('services/v1/ContactDetails?field=target&value='+$scope.companyId).success(function(data){
-        $scope.contactDetails = data;
+      $http.get(merohcConfig.BASE_URL + '/company/'+$scope.companyId+'/email').success(function(data){
+        $scope.emails = data;
       });
     }
   };
 
   //get back notes for the company
-  $scope.updateNotes=function(){
+  /*$scope.updateNotes=function(){
     if ($scope.companyId){
       $http.get('services/v1/Note?field=target&value='+$scope.companyId).success(function(data){
         $scope.notes = data;
@@ -151,8 +151,8 @@ merohcCRMControllers.controller('CompanyDetailController',
   };*/
 
   $scope.updateCompany();
-  /*$scope.updateContactDetails();
-  $scope.updateNotes();*/
+  $scope.updateEmails();
+  //$scope.updateNotes();
   $scope.updateContacts();
   /*$scope.updateInvoices();*/
 
@@ -305,8 +305,89 @@ merohcCRMControllers.controller('ContactDetailController',
 
 }]);
 
+merohcCRMControllers.controller('EmailCreateController', ['$scope', '$http', '$state', '$stateParams', 'merohc-config',function ($scope, $http, $state, $stateParams, merohcConfig) {
 
+  $scope.saveEmail = function(){
+    $http({
+            method  : 'PUT',
+            url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/email',
+            data    : $.param($scope.email),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+         })
+          .success(function(data) {
+            $state.go('crm.companies.viewEmail', { companyId: $state.params.companyId, emailId: data.id });
+          });
+  };
 
+  $scope.cancel = function(){
+    $state.go('crm.companies.view', { companyId: $stateParams.companyId });
+  }
+
+}]);
+
+merohcCRMControllers.controller('EmailViewController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig){
+
+  $scope.companyId=$state.params.companyId;
+  $scope.emailId=$state.params.emailId;
+
+  $scope.updateEmail=function(){
+    if ($scope.companyId && $scope.emailId){
+      $http.get(merohcConfig.BASE_URL + '/email/'+$scope.emailId).success(function(data){
+        $scope.email = data;
+      });
+    }
+  };
+
+  $scope.deleteEmail=function(){
+    //FIXME JC 151216 - Should ask confirmation for deletion
+    if ($scope.companyId && $scope.emailId){
+      $http.delete(merohcConfig.BASE_URL + '/email/'+$scope.emailId).success(function(data){
+        $state.go('crm.companies.view', {companyId : $scope.companyId});
+      });
+    }
+  }
+
+  $scope.editEmail=function(){
+    $state.go('crm.companies.editEmail', { companyId: $scope.companyId, emailId: $scope.emailId });
+  }
+
+  $scope.updateEmail();
+
+}]);
+
+merohcCRMControllers.controller('EmailEditController', ['$scope', '$http', '$state', 'merohc-config',function ($scope, $http, $state, merohcConfig) {
+
+  $scope.emailId=$state.params.emailId;
+
+  $scope.saveEmail = function(){
+    $http({
+            method  : 'POST',
+            url     : merohcConfig.BASE_URL + '/email',
+            data    : $.param($scope.email),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+         })
+          .success(function(data) {
+            $state.go('crm.companies.viewEmail', { companyId: $state.params.companyId, emailId: $state.params.emailId });
+          });
+  };
+
+  $scope.updateEmail=function(){
+      if ($scope.emailId){
+        $http.get(merohcConfig.BASE_URL + '/email/'+$scope.emailId).success(function(data){
+          $scope.email = data;
+        });
+      }
+    };
+
+  $scope.cancel = function(){
+    $state.go('crm.companies.viewEmail', { companyId: $state.params.companyId, emailId: $state.params.emailId });
+  }
+
+  $scope.updateEmail();
+
+}]);
 
 
 

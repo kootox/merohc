@@ -52,6 +52,24 @@ merohcCRM.config(
         controller: 'ContactEditController'
       })
 
+      .state('crm.companies.createEmail', {
+        url: '/:companyId/email/add',
+        templateUrl:'crm/partials/emailCreateCard.html',
+        controller: 'EmailCreateController'
+      })
+
+      .state('crm.companies.viewEmail', {
+        url: '/:companyId/email/:emailId',
+        templateUrl: 'crm/partials/emailViewCard.html',
+        controller: 'EmailViewController'
+      })
+
+      .state('crm.companies.editEmail', {
+        url: '/:companyId/email/:emailId/edit',
+        templateUrl: 'crm/partials/emailEditCard.html',
+        controller: 'EmailEditController'
+      })
+
 
 
 

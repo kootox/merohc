@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Détails de l'email</h3>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-danger" ng-click="deleteEmail()">
+                <i class="fa fa-trash"></i>
+                <span>Delete</span>
+            </a>
+        </div>
+        <a class="btn btn-danger pull-right hidden-xs" ng-click="deleteEmail()">
+            <i class="fa fa-trash"></i>
+            <span>Delete</span>
+        </a>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" ng-click="editEmail()">
+                <i class="fa fa-pencil"></i>
+                <span>Edit</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" ng-click="editEmail()">
+            <i class="fa fa-pencil"></i>
+            <span>Edit</span>
+        </a>
+    </div>
+    <div class="list-group">
+        <div class="list-group-item">
+            <label>Nom</label>
+            <h4 class="list-group-item-heading">{{email.name}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Email</label>
+            <h4 class="list-group-item-heading">{{email.value}}</h4>
+        </div>
+    </div>
+</div>
