@@ -28,6 +28,8 @@ public class ContactDetailsController {
 
     EmailTopiaDao emailDao = persistenceContext.getEmailDao();
 
+    AddressTopiaDao addressDao = persistenceContext.getAddressDao();
+
     @RequestMapping(value="/v1/company/{id}/email", method= RequestMethod.GET)
     public List<EmailDTO> getEmailsForCompany(@PathVariable String id) {
 
@@ -111,6 +113,111 @@ public class ContactDetailsController {
         try {
             Email email = emailDao.forTopiaIdEquals(id).findAny();
             emailDao.delete(email);
+            persistenceContext.commit();
+        } catch (TopiaNoResultException tnre) {
+            //Entity does not already exist, so nothing to do
+        }
+    }
+
+    @RequestMapping(value="/v1/company/{id}/address", method= RequestMethod.GET)
+    public List<AddressDTO> getAddressesForCompany(@PathVariable String id) {
+
+        List<Address> addresses;
+
+        List <AddressDTO> dtos = new ArrayList<AddressDTO>();
+
+        Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
+
+        try {
+            addresses = addressDao.forCompanyEquals(company).findAll();
+
+            for (Address address:addresses) {
+                dtos.add(new AddressDTO(address));
+            }
+
+        } catch (TopiaQueryException eee) {
+            //FIXME JC151216 silent exception
+            //no result found so keep empty list
+        }
+
+        return dtos;
+    }
+
+    @RequestMapping(value="/v1/company/{id}/address", method= RequestMethod.PUT)
+    public AddressDTO addAddressToCompany(@PathVariable String id,
+                                          @RequestParam String address1,
+                                          @RequestParam String address2,
+                                          @RequestParam String zipCode,
+                                          @RequestParam String city,
+                                          @RequestParam String country,
+                                          @RequestParam String name) {
+
+        Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
+
+        Address address = addressDao.create();
+
+        if (company != null){
+            address.setName(name);
+            address.setAddress1(address1);
+            address.setAddress2(address2);
+            address.setCity(city);
+            address.setZipCode(zipCode);
+            address.setCountry(country);
+            address.setCompany(company);
+        }
+
+        persistenceContext.commit();
+        AddressDTO dto = new AddressDTO(address);
+        return dto;
+    }
+
+    @RequestMapping(value="/v1/address/{id:.+}", method= RequestMethod.GET)
+    public AddressDTO getAddress(@PathVariable String id) {
+
+        AddressDTO dto = null;
+
+        try {
+            Address address = addressDao.forTopiaIdEquals(id).findAny();
+            dto = new AddressDTO(address);
+        } catch (TopiaNoResultException tnre) {
+            //Entity does not already exist, so nothing to do
+        }
+
+        return dto;
+    }
+
+    @RequestMapping(value="/v1/address", method= RequestMethod.POST)
+    public AddressDTO editAddress(@RequestParam String id,
+                                  @RequestParam String address1,
+                                  @RequestParam String address2,
+                                  @RequestParam String zipCode,
+                                  @RequestParam String city,
+                                  @RequestParam String country,
+                                  @RequestParam String name) {
+
+        Address address = addressDao.forTopiaIdEquals(id).findAnyOrNull();
+
+        if (address != null){
+            address.setName(name);
+            address.setAddress1(address1);
+            address.setAddress2(address2);
+            address.setCity(city);
+            address.setZipCode(zipCode);
+            address.setCountry(country);
+        } else {
+            //FIXME JC151216 Should throw an exception
+        }
+
+        persistenceContext.commit();
+        AddressDTO dto = new AddressDTO(address);
+        return dto;
+    }
+
+    @RequestMapping(value="/v1/address/{id:.+}", method= RequestMethod.DELETE)
+    public void deleteAddress(@PathVariable String id) {
+        try {
+            Address address = addressDao.forTopiaIdEquals(id).findAny();
+            addressDao.delete(address);
             persistenceContext.commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do

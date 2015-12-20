@@ -123,6 +123,15 @@ merohcCRMControllers.controller('CompanyDetailController',
     }
   };
 
+  //get back addresses for the company
+  $scope.updateAddresses=function(){
+    if ($scope.companyId){
+      $http.get(merohcConfig.BASE_URL + '/company/'+$scope.companyId+'/address').success(function(data){
+        $scope.addresses = data;
+      });
+    }
+  };
+
   //get back notes for the company
   /*$scope.updateNotes=function(){
     if ($scope.companyId){
@@ -152,6 +161,7 @@ merohcCRMControllers.controller('CompanyDetailController',
 
   $scope.updateCompany();
   $scope.updateEmails();
+  $scope.updateAddresses();
   //$scope.updateNotes();
   $scope.updateContacts();
   /*$scope.updateInvoices();*/
@@ -388,6 +398,102 @@ merohcCRMControllers.controller('EmailEditController', ['$scope', '$http', '$sta
   $scope.updateEmail();
 
 }]);
+
+merohcCRMControllers.controller('AddressCreateController',
+    ['$scope', '$http', '$state', '$stateParams', 'merohc-config',
+    function ($scope, $http, $state, $stateParams, merohcConfig) {
+
+  $scope.saveAddress = function(){
+    $http({
+            method  : 'PUT',
+            url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/address',
+            data    : $.param($scope.address),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+         })
+          .success(function(data) {
+            $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: data.id });
+          });
+  };
+
+  $scope.cancel = function(){
+    $state.go('crm.companies.view', { companyId: $stateParams.companyId });
+  }
+
+}]);
+
+merohcCRMControllers.controller('AddressViewController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig){
+
+  $scope.companyId=$state.params.companyId;
+  $scope.addressId=$state.params.addressId;
+
+  $scope.updateAddress=function(){
+    if ($scope.companyId && $scope.addressId){
+      $http.get(merohcConfig.BASE_URL + '/address/'+$scope.addressId).success(function(data){
+        $scope.address = data;
+      });
+    }
+  };
+
+  $scope.deleteAddress=function(){
+    //FIXME JC 151216 - Should ask confirmation for deletion
+    if ($scope.companyId && $scope.addressId){
+      $http.delete(merohcConfig.BASE_URL + '/address/'+$scope.addressId).success(function(data){
+        $state.go('crm.companies.view', {companyId : $scope.companyId});
+      });
+    }
+  }
+
+  $scope.editAddress=function(){
+    $state.go('crm.companies.editAddress', { companyId: $scope.companyId, addressId: $scope.addressId });
+  }
+
+  $scope.updateAddress();
+
+}]);
+
+merohcCRMControllers.controller('AddressEditController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig) {
+
+  $scope.addressId=$state.params.addressId;
+
+  $scope.saveAddress = function(){
+    $http({
+            method  : 'POST',
+            url     : merohcConfig.BASE_URL + '/address',
+            data    : $.param($scope.address),  // pass in data as strings
+            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+         })
+          .success(function(data) {
+            $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: $state.params.addressId });
+          });
+  };
+
+  $scope.updateAddress=function(){
+      if ($scope.addressId){
+        $http.get(merohcConfig.BASE_URL + '/address/'+$scope.addressId).success(function(data){
+          $scope.address = data;
+        });
+      }
+    };
+
+  $scope.cancel = function(){
+    $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: $state.params.addressId });
+  }
+
+  $scope.updateAddress();
+
+}]);
+
+
+
+
+
+
+
+
 
 
 

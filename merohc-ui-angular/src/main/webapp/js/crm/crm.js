@@ -70,6 +70,24 @@ merohcCRM.config(
         controller: 'EmailEditController'
       })
 
+      .state('crm.companies.createAddress', {
+        url: '/:companyId/address/add',
+        templateUrl:'crm/partials/addressCreateCard.html',
+        controller: 'AddressCreateController'
+      })
+
+      .state('crm.companies.viewAddress', {
+        url: '/:companyId/address/:addressId',
+        templateUrl: 'crm/partials/addressViewCard.html',
+        controller: 'AddressViewController'
+      })
+
+      .state('crm.companies.editAddress', {
+        url: '/:companyId/address/:addressId/edit',
+        templateUrl: 'crm/partials/addressEditCard.html',
+        controller: 'AddressEditController'
+      })
+
 
 
 

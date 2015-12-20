@@ -11,7 +11,11 @@
         </div>
         <a class="btn btn-primary pull-right hidden-xs" href="#/crm/companies/{{companyId}}/email/add">
             <i class="fa fa-plus"></i>
-            <span>Ajouter</span>
+            <span>Email</span>
+        </a>
+        <a class="btn btn-primary pull-right hidden-xs" href="#/crm/companies/{{companyId}}/address/add">
+            <i class="fa fa-plus"></i>
+            <span>Adresse</span>
         </a>
     </div>
     <div class="list-group">
@@ -20,6 +24,12 @@
             <i class="fa fa-3x fa-at pull-left"></i>
             <label>{{email.name}}</label>
             <h4 class="list-group-item-heading">{{email.value}}</h4>
+        </a>
+        <a class="list-group-item" ng-repeat="address in addresses"
+           href="#/crm/companies/{{companyId}}/address/{{address.id}}">
+            <i class="fa fa-3x fa-envelope-o pull-left"></i>
+            <label>{{address.name}}</label>
+            <h4 class="list-group-item-heading">{{address.zipCode}}&nbsp;{{address.city}}</h4>
         </a>
     </div>
 </div>

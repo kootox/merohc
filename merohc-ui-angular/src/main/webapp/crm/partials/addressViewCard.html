@@ -1,0 +1,51 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Détails de l'adresse</h3>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-danger" ng-click="deleteAddress()">
+                <i class="fa fa-trash"></i>
+                <span>Delete</span>
+            </a>
+        </div>
+        <a class="btn btn-danger pull-right hidden-xs" ng-click="deleteAddress()">
+            <i class="fa fa-trash"></i>
+            <span>Delete</span>
+        </a>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" ng-click="editAddress()">
+                <i class="fa fa-pencil"></i>
+                <span>Edit</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" ng-click="editAddress()">
+            <i class="fa fa-pencil"></i>
+            <span>Edit</span>
+        </a>
+    </div>
+    <div class="list-group">
+        <div class="list-group-item">
+            <label>Nom</label>
+            <h4 class="list-group-item-heading">{{address.name}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Adresse 1</label>
+            <h4 class="list-group-item-heading">{{address.address1}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Adresse 2</label>
+            <h4 class="list-group-item-heading">{{address.address2}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Code Postal</label>
+            <h4 class="list-group-item-heading">{{address.zipCode}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Ville</label>
+            <h4 class="list-group-item-heading">{{address.city}}</h4>
+        </div>
+        <div class="list-group-item">
+            <label>Pays</label>
+            <h4 class="list-group-item-heading">{{address.country}}</h4>
+        </div>
+    </div>
+</div>

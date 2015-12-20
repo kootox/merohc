@@ -1,0 +1,67 @@
+<div class="panel panel-default">
+
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Nouvelle addresse</h3>
+        <div class="btn-group pull-right">
+            <button class="btn btn-danger" ng-click="cancel()">
+                <i class="fa fa-times"></i>
+                Annuler
+            </button>
+            <button class="btn btn-success" ng-click="saveAddress()">
+                <i class="fa fa-check"></i>
+                Sauver
+            </button>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Nom</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="address.name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Addresse 1</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="address.address1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Addresse 2</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="address.address2">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Code Postal</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="address.zipCode">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Ville</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="address.city">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Pays</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="address.country">
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        &nbsp;
+    </div>
+</div>
