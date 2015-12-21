@@ -30,6 +30,8 @@ public class ContactDetailsController {
 
     AddressTopiaDao addressDao = persistenceContext.getAddressDao();
 
+    PhoneTopiaDao phoneDao = persistenceContext.getPhoneDao();
+
     @RequestMapping(value="/v1/company/{id}/email", method= RequestMethod.GET)
     public List<EmailDTO> getEmailsForCompany(@PathVariable String id) {
 
@@ -218,6 +220,99 @@ public class ContactDetailsController {
         try {
             Address address = addressDao.forTopiaIdEquals(id).findAny();
             addressDao.delete(address);
+            persistenceContext.commit();
+        } catch (TopiaNoResultException tnre) {
+            //Entity does not already exist, so nothing to do
+        }
+    }
+
+    @RequestMapping(value="/v1/company/{id}/phone", method= RequestMethod.GET)
+    public List<PhoneDTO> getPhonesForCompany(@PathVariable String id) {
+
+        List<Phone> phones;
+
+        List <PhoneDTO> dtos = new ArrayList<PhoneDTO>();
+
+        Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
+
+        try {
+            phones = phoneDao.forCompanyEquals(company).findAll();
+
+            for (Phone phone:phones) {
+                dtos.add(new PhoneDTO(phone));
+            }
+
+        } catch (TopiaQueryException eee) {
+            //FIXME JC151216 silent exception
+            //no result found so keep empty list
+        }
+
+        return dtos;
+    }
+
+    @RequestMapping(value="/v1/company/{id}/phone", method= RequestMethod.PUT)
+    public PhoneDTO addPhoneToCompany(@PathVariable String id,
+                                      @RequestParam String number,
+                                      @RequestParam String type,
+                                      @RequestParam String name) {
+
+        Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
+
+        Phone phone = phoneDao.create();
+
+        if (company != null){
+            phone.setName(name);
+            phone.setNumber(number);
+            phone.setType(type);
+            phone.setCompany(company);
+        }
+
+        persistenceContext.commit();
+        PhoneDTO dto = new PhoneDTO(phone);
+        return dto;
+    }
+
+    @RequestMapping(value="/v1/phone/{id:.+}", method= RequestMethod.GET)
+    public PhoneDTO getPhone(@PathVariable String id) {
+
+        PhoneDTO dto = null;
+
+        try {
+            Phone phone = phoneDao.forTopiaIdEquals(id).findAny();
+            dto = new PhoneDTO(phone);
+        } catch (TopiaNoResultException tnre) {
+            //Entity does not already exist, so nothing to do
+        }
+
+        return dto;
+    }
+
+    @RequestMapping(value="/v1/phone", method= RequestMethod.POST)
+    public PhoneDTO editPhone(@RequestParam String id,
+                              @RequestParam String number,
+                              @RequestParam String type,
+                              @RequestParam String name) {
+
+        Phone phone = phoneDao.forTopiaIdEquals(id).findAnyOrNull();
+
+        if (phone != null){
+            phone.setName(name);
+            phone.setNumber(number);
+            phone.setType(type);
+        } else {
+            //FIXME JC151216 Should throw an exception
+        }
+
+        persistenceContext.commit();
+        PhoneDTO dto = new PhoneDTO(phone);
+        return dto;
+    }
+
+    @RequestMapping(value="/v1/phone/{id:.+}", method= RequestMethod.DELETE)
+    public void deletePhone(@PathVariable String id) {
+        try {
+            Phone phone = phoneDao.forTopiaIdEquals(id).findAny();
+            phoneDao.delete(phone);
             persistenceContext.commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do

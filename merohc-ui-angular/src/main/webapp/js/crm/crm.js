@@ -88,41 +88,22 @@ merohcCRM.config(
         controller: 'AddressEditController'
       })
 
-
-
-
-
-
-
-
-      .state('crm.companies.viewnote', {
-        url: '/:companyId/notes/:noteId',
-        templateUrl: 'crm/partials/notePanel.html',
-        controller: 'NoteController'
+      .state('crm.companies.createPhone', {
+        url: '/:companyId/phone/add',
+        templateUrl:'crm/partials/phoneCreateCard.html',
+        controller: 'PhoneCreateController'
       })
 
-      .state('crm.companies.viewcontactDetails', {
-        url: '/:companyId/contactDetails/:contactDetailsId',
-        templateUrl: 'crm/partials/contactDetailsPanel.html',
-        controller: 'ContactDetailsController'
+      .state('crm.companies.viewPhone', {
+        url: '/:companyId/phone/:phoneId',
+        templateUrl: 'crm/partials/phoneViewCard.html',
+        controller: 'PhoneViewController'
       })
 
-      .state('crm.persons', {
-        url: '/persons',
-        templateUrl: 'crm/partials/personsList.html',
-        controller: 'PersonListController'
-      })
-
-      .state('crm.persons.add', {
-        url: '/add',
-        templateUrl: 'crm/partials/personCreateCard.html',
-        controller:'PersonCreateController'
-      })
-
-      .state('crm.persons.view', {
-        url: '/:personId',
-        templateUrl: 'crm/partials/personPanel.html',
-        controller: 'PersonDetailController'
+      .state('crm.companies.editPhone', {
+        url: '/:companyId/phone/:phoneId/edit',
+        templateUrl: 'crm/partials/phoneEditCard.html',
+        controller: 'PhoneEditController'
       })
 }]);
 

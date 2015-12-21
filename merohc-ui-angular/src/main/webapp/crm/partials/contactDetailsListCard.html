@@ -17,6 +17,10 @@
             <i class="fa fa-plus"></i>
             <span>Adresse</span>
         </a>
+        <a class="btn btn-primary pull-right hidden-xs" href="#/crm/companies/{{companyId}}/phone/add">
+            <i class="fa fa-plus"></i>
+            <span>Phone</span>
+        </a>
     </div>
     <div class="list-group">
         <a class="list-group-item" ng-repeat="email in emails"
@@ -30,6 +34,12 @@
             <i class="fa fa-3x fa-envelope-o pull-left"></i>
             <label>{{address.name}}</label>
             <h4 class="list-group-item-heading">{{address.zipCode}}&nbsp;{{address.city}}</h4>
+        </a>
+        <a class="list-group-item" ng-repeat="phone in phones"
+           href="#/crm/companies/{{companyId}}/phone/{{phone.id}}">
+            <i class="fa fa-3x fa-phone pull-left"></i>
+            <label>{{phone.name}}</label>
+            <h4 class="list-group-item-heading">{{phone.number}}</h4>
         </a>
     </div>
 </div>
