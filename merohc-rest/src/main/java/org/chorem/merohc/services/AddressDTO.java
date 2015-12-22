@@ -1,6 +1,8 @@
 package org.chorem.merohc.services;
 
 import org.chorem.merhoc.entities.Address;
+import org.chorem.merhoc.entities.Company;
+import org.chorem.merhoc.entities.Contact;
 
 /**
  * Created by couteau on 19/12/15.
@@ -21,6 +23,8 @@ public class AddressDTO {
 
     protected String companyId;
 
+    protected String contactId;
+
     protected String name;
 
     public AddressDTO(Address address) {
@@ -33,7 +37,17 @@ public class AddressDTO {
         this.city = address.getCity();
         this.country = address.getCountry();
         this.id = address.getTopiaId();
-        this.companyId = address.getCompany().getTopiaId();
+
+        Company company = address.getCompany();
+        if (null != company){
+            this.companyId = company.getTopiaId();
+        }
+
+        Contact contact = address.getContact();
+        if (null != contact){
+            this.contactId = contact.getTopiaId();
+        }
+
         this.name = address.getName();
 
     }
@@ -100,5 +114,13 @@ public class AddressDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
     }
 }

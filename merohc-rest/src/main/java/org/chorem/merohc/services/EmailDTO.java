@@ -1,5 +1,7 @@
 package org.chorem.merohc.services;
 
+import org.chorem.merhoc.entities.Company;
+import org.chorem.merhoc.entities.Contact;
 import org.chorem.merhoc.entities.Email;
 
 public class EmailDTO {
@@ -12,12 +14,23 @@ public class EmailDTO {
 
     protected String companyId;
 
+    protected String contactId;
+
     public EmailDTO(Email email){
         super();
         this.id = email.getTopiaId();
         this.name = email.getName();
         this.value = email.getEmail();
-        this.companyId = email.getCompany().getTopiaId();
+
+        Company company = email.getCompany();
+        if (null != company){
+            this.companyId = company.getTopiaId();
+        }
+
+        Contact contact = email.getContact();
+        if (null != contact){
+            this.contactId = contact.getTopiaId();
+        }
     }
 
     public String getValue() {
@@ -50,5 +63,13 @@ public class EmailDTO {
 
     public void setCompanyId(String companyId) {
         this.companyId = companyId;
+    }
+
+    public String getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(String contactId) {
+        this.contactId = contactId;
     }
 }

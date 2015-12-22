@@ -42,7 +42,7 @@ merohcCRM.config(
 
       .state('crm.companies.viewContact', {
         url: '/:companyId/contact/:contactId',
-        templateUrl: 'crm/partials/contactViewCard.html',
+        templateUrl: 'crm/partials/contactPanel.html',
         controller: 'ContactDetailController'
       })
 
@@ -54,6 +54,9 @@ merohcCRM.config(
 
       .state('crm.companies.createEmail', {
         url: '/:companyId/email/add',
+        params:{
+          contactId:null
+        },
         templateUrl:'crm/partials/emailCreateCard.html',
         controller: 'EmailCreateController'
       })
@@ -72,6 +75,9 @@ merohcCRM.config(
 
       .state('crm.companies.createAddress', {
         url: '/:companyId/address/add',
+        params:{
+          contactId:null
+        },
         templateUrl:'crm/partials/addressCreateCard.html',
         controller: 'AddressCreateController'
       })
@@ -90,6 +96,9 @@ merohcCRM.config(
 
       .state('crm.companies.createPhone', {
         url: '/:companyId/phone/add',
+        params:{
+          contactId:null
+        },
         templateUrl:'crm/partials/phoneCreateCard.html',
         controller: 'PhoneCreateController'
       })

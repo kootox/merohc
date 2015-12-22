@@ -9,15 +9,18 @@
                 <span>Ajouter</span>
             </a>
         </div>
-        <a class="btn btn-primary pull-right hidden-xs" href="#/crm/companies/{{companyId}}/email/add">
+        <a class="btn btn-primary pull-right hidden-xs"
+           ui-sref="crm.companies.createEmail({companyId:'{{companyId}}',contactId:'{{contactId}}'})">
             <i class="fa fa-plus"></i>
             <span>Email</span>
         </a>
-        <a class="btn btn-primary pull-right hidden-xs" href="#/crm/companies/{{companyId}}/address/add">
+        <a class="btn btn-primary pull-right hidden-xs"
+           ui-sref="crm.companies.createAddress({companyId:'{{companyId}}',contactId:'{{contactId}}'})">
             <i class="fa fa-plus"></i>
             <span>Adresse</span>
         </a>
-        <a class="btn btn-primary pull-right hidden-xs" href="#/crm/companies/{{companyId}}/phone/add">
+        <a class="btn btn-primary pull-right hidden-xs"
+           ui-sref="crm.companies.createPhone({companyId:'{{companyId}}',contactId:'{{contactId}}'})">
             <i class="fa fa-plus"></i>
             <span>Phone</span>
         </a>
