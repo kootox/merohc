@@ -13,13 +13,7 @@ import java.util.List;
 @RestController
 public class ContactDetailsController {
 
-    MerohcApplicationConfig configuration = new MerohcApplicationConfig();
-
-    MerohcTopiaApplicationContext applicationContext =
-            new MerohcTopiaApplicationContext(configuration.getTopiaProperties());
-
-    MerohcTopiaPersistenceContext persistenceContext =
-            applicationContext.newPersistenceContext();
+    MerohcTopiaPersistenceContext persistenceContext = MerohcPersistenceContextSingleton.getInstance();
 
     CompanyTopiaDao companyDao =
             persistenceContext.getCompanyDao();
