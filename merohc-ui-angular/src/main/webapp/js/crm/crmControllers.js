@@ -468,21 +468,21 @@ merohcCRMControllers.controller('AddressCreateController',
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/contact/'+ $scope.contactId +'/address',
-        data    : $.param($scope.email),  // pass in data as strings
+        data    : $.param($scope.address),  // pass in data as strings
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       })
       .success(function(data) {
-        $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, emailId: data.id });
+        $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: data.id });
       });
     } else {
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/address',
-        data    : $.param($scope.email),  // pass in data as strings
+        data    : $.param($scope.address),  // pass in data as strings
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       })
       .success(function(data) {
-        $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, emailId: data.id });
+        $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: data.id });
       });
     }
   };
@@ -574,21 +574,21 @@ merohcCRMControllers.controller('PhoneCreateController',
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/contact/'+ $scope.contactId +'/phone',
-        data    : $.param($scope.email),  // pass in data as strings
+        data    : $.param($scope.phone),  // pass in data as strings
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       })
       .success(function(data) {
-        $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, emailId: data.id });
+        $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, phoneId: data.id });
       });
     } else {
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/phone',
-        data    : $.param($scope.email),  // pass in data as strings
+        data    : $.param($scope.phone),  // pass in data as strings
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       })
       .success(function(data) {
-        $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, emailId: data.id });
+        $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, phoneId: data.id });
       });
     }
   };
@@ -649,7 +649,7 @@ merohcCRMControllers.controller('PhoneEditController',
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     })
     .success(function(data) {
-      $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: $state.params.addressId });
+      $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, phoneId: $state.params.phoneId });
     });
   };
 
