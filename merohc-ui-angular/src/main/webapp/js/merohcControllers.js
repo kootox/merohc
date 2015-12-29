@@ -14,11 +14,11 @@ merohcControllers.controller('HomePageResumeController', ['$scope', '$http', 'me
     $scope.companiesNumber = data.length;
   });
 
-  /**$http.get('services/v1/Person').success(function(data){
+  $http.get(baseUrl + '/contact').success(function(data){
     $scope.personNumber = data.length;
   });
 
-  $http.get('services/v1/Invoice').success(function(data){
+  /**$http.get('services/v1/Invoice').success(function(data){
       $scope.invoiceNumber = data.length;
     });**/
 

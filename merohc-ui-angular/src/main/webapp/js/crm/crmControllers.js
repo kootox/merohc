@@ -1,6 +1,8 @@
 var merohcCRMControllers = angular.module('merohc.crm.controllers', ['ui.router']);
 
-merohcCRMControllers.controller('CompanyListController', ['$scope', '$http', '$location', '$state', 'merohc-config' , function ($scope, $http, $location, $state, merohcConfig) {
+merohcCRMControllers.controller('CompanyListController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig) {
 
   $scope.items = '';
 
@@ -261,9 +263,12 @@ merohcCRMControllers.controller('ContactCreateController', ['$scope', '$http', '
 
 }]);
 
-merohcCRMControllers.controller('ContactEditController', ['$scope', '$http', '$state', 'merohc-config',function ($scope, $http, $state, merohcConfig) {
+merohcCRMControllers.controller('ContactEditController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig) {
 
   $scope.contactId=$state.params.contactId;
+  $scope.companyId=$state.params.companyId;
 
   $scope.saveContact = function(){
     $http({
@@ -273,7 +278,12 @@ merohcCRMControllers.controller('ContactEditController', ['$scope', '$http', '$s
             headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
          })
           .success(function(data) {
-            $state.go('crm.companies.viewContact', { companyId: $state.params.companyId, contactId: $state.params.contactId });
+            if ($scope.companyId) {
+              $state.go('crm.companies.viewContact', { companyId: $state.params.companyId, contactId: $state.params.contactId });
+            } else {
+              //FIXME JC151227 - update parent list
+              $state.go('crm.contacts.view', {contactId: $state.params.contactId });
+            }
           });
   };
 
@@ -286,7 +296,11 @@ merohcCRMControllers.controller('ContactEditController', ['$scope', '$http', '$s
     };
 
   $scope.cancel = function(){
-    $state.go('crm.companies.viewContact', { companyId: $state.params.companyId, contactId: $state.params.contactId });
+    if ($scope.companyId) {
+      $state.go('crm.companies.viewContact', { companyId: $state.params.companyId, contactId: $state.params.contactId });
+    } else {
+      $state.go('crm.contacts.view', {contactId: $state.params.contactId });
+    }
   }
 
   $scope.updateContact();
@@ -358,9 +372,10 @@ merohcCRMControllers.controller('ContactDetailController',
 merohcCRMControllers.controller('EmailCreateController', ['$scope', '$http', '$state', '$stateParams', 'merohc-config',function ($scope, $http, $state, $stateParams, merohcConfig) {
 
   $scope.contactId=$state.params.contactId;
+  $scope.companyId=$state.params.companyId;
 
   $scope.saveEmail = function(){
-    if ($scope.contactId!=null){
+    if ($scope.contactId != null || $scope.companyId == null){
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/contact/'+ $scope.contactId +'/email',
@@ -368,7 +383,11 @@ merohcCRMControllers.controller('EmailCreateController', ['$scope', '$http', '$s
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       })
       .success(function(data) {
-        $state.go('crm.companies.viewEmail', { companyId: $state.params.companyId, emailId: data.id });
+        if ($scope.company==null){
+          $state.go('crm.contacts.viewEmail', { contactId: $state.params.contactId, emailId: data.id });
+        } else {
+          $state.go('crm.companies.viewEmail', { companyId: $state.params.companyId, emailId: data.id });
+        }
       });
     } else {
       $http({
@@ -666,5 +685,163 @@ merohcCRMControllers.controller('PhoneEditController',
   }
 
   $scope.updatePhone();
+
+}]);
+
+merohcCRMControllers.controller('ContactListController', ['$scope', '$http', '$state', 'merohc-config' , function ($scope, $http, $state, merohcConfig) {
+
+  $scope.items = '';
+
+  $scope.filteredItems = $scope.items;
+
+  $scope.searchTerm="";
+
+  $scope.selectedItem=$scope.items[0];
+
+  $scope.targetId="";
+
+  $scope.setTargetId=function(targetId){
+    $scope.targetId=targetId;
+  }
+
+  $scope.selectItem=function(selectedContact){
+    $scope.selectedItem = selectedContact;
+    $state.go('crm.contacts.view', { contactId: selectedContact.id });
+  };
+
+  $scope.selectItemById=function(id){
+    for (var index in $scope.items) {
+      var contact = $scope.items[index];
+      if (contact.id===id){
+        $scope.selectedItem=contact;
+      }
+    }
+  }
+
+  $scope.isItemSelected=function(selectedContact){
+    return selectedContact===$scope.selectedItem;
+  };
+
+  $scope.filter=function(){
+    $scope.filteredItems=[];
+    for (var index in $scope.items) {
+      var contact = $scope.items[index];
+      var regexp = new RegExp($scope.searchTerm,"i");
+      if (contact.firstName.match(regexp)){
+        $scope.filteredItems.push(contact);
+      }
+    }
+  };
+
+  $scope.updateItem = function(oldItem, newItem) {
+    for (var index in $scope.items) {
+      var contact = $scope.items[index];
+      if (contact.id===oldItem.id){
+        $scope.items[index]=newItem;
+      }
+    }
+
+    $scope.filter();
+  }
+
+  $scope.addItem = function(newItem) {
+    $scope.items.push(newItem);
+    $scope.filter();
+    $state.go('crm.contacts.view', { contactId: newItem.id })
+  }
+
+  $scope.deleteItem = function(oldItem) {
+
+    for (var index in $scope.items) {
+      var contact = $scope.items[index];
+      if (contact.id===oldItem.id){
+        if (index > -1) {
+          $scope.items.splice(index, 1);
+        }
+      }
+    }
+    $state.go("crm.contacts");
+    $scope.refresh();
+  }
+
+  $scope.refresh=function(){
+    $http.get(merohcConfig.BASE_URL + '/contact').success(function(data){
+      $scope.items = data;
+      $scope.filter();
+    });
+  };
+
+  $scope.refresh();
+
+}]);
+
+merohcCRMControllers.controller('ContactViewController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig){
+
+  $scope.contactId=$state.params.contactId;
+
+  $scope.updateContact=function(){
+    if ($scope.contactId){
+      $http.get(merohcConfig.BASE_URL + '/contact/'+$scope.contactId).success(function(data){
+        $scope.contact = data;
+        $scope.updateCompany();
+      });
+    }
+  };
+
+  $scope.deleteContact=function(){
+    //FIXME JC 151212 - Should ask confirmation for deletion
+    if ($scope.contactId){
+      $http.delete(merohcConfig.BASE_URL + '/contact/'+$scope.contactId).success(function(data){
+        $scope.deleteItem($scope.contact);
+      });
+    }
+  }
+
+  $scope.editContact=function(){
+    $state.go('crm.contacts.edit', { contactId: $scope.contactId });
+  }
+
+  //get back emails for the contact
+  $scope.updateEmails=function(){
+    if ($scope.contactId){
+      $http.get(merohcConfig.BASE_URL + '/contact/'+$scope.contactId+'/email').success(function(data){
+        $scope.emails = data;
+      });
+    }
+  };
+
+  //get back addresses for the contact
+  $scope.updateAddresses=function(){
+    if ($scope.contactId){
+      $http.get(merohcConfig.BASE_URL + '/contact/'+$scope.contactId+'/address').success(function(data){
+        $scope.addresses = data;
+      });
+    }
+  };
+
+  //get back phones for the contact
+  $scope.updatePhones=function(){
+    if ($scope.contactId){
+      $http.get(merohcConfig.BASE_URL + '/contact/'+$scope.contactId+'/phone').success(function(data){
+        $scope.phones = data;
+      });
+    }
+  };
+
+  //get back contact's company
+  $scope.updateCompany=function(){
+    if ($scope.companyId){
+      $http.get(merohcConfig.BASE_URL + '/company/'+$scope.contact.companyId).success(function(data){
+        $scope.company = data;
+      });
+    }
+  };
+
+  $scope.updateContact();
+  $scope.updateEmails();
+  $scope.updateAddresses();
+  $scope.updatePhones();
 
 }]);

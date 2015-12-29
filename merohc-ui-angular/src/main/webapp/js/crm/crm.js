@@ -114,6 +114,34 @@ merohcCRM.config(
         templateUrl: 'crm/partials/phoneEditCard.html',
         controller: 'PhoneEditController'
       })
+
+
+
+
+
+      .state('crm.contacts', {
+        url: '/contacts',
+        templateUrl: 'crm/partials/contacts.list.html',
+        controller:'ContactListController'
+      })
+
+      .state('crm.contacts.view', {
+        url: '/:contactId',
+        templateUrl: 'crm/partials/contactPanel.html',
+        controller: 'ContactViewController'
+      })
+
+      .state('crm.contacts.edit', {
+        url: '/contact/:contactId/edit',
+        templateUrl: 'crm/partials/contactEditCard.html',
+        controller: 'ContactEditController'
+      })
+
+      .state('crm.contacts.createEmail', {
+        url: '/:contactId/email/add',
+        templateUrl:'crm/partials/emailCreateCard.html',
+        controller: 'EmailCreateController'
+      })
 }]);
 
 
