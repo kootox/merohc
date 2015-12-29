@@ -128,6 +128,22 @@ public class CompanyController {
         return dto;
     }
 
+    @RequestMapping(value="/v1/contact", method= RequestMethod.GET)
+    public List<ContactDTO> getContacts() {
+
+        List<Contact> contacts = contactDao.findAll();
+
+        List<ContactDTO> dtos = new ArrayList<ContactDTO>();
+
+        for (Contact contact:contacts) {
+            ContactDTO dto = new ContactDTO(contact);
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
+
     @RequestMapping(value="/v1/contact/{id:.+}", method= RequestMethod.GET)
     public ContactDTO getContact(@PathVariable String id) {
 
