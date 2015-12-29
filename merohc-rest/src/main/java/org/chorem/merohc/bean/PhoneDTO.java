@@ -1,4 +1,4 @@
-package org.chorem.merohc.services;
+package org.chorem.merohc.bean;
 
 import org.chorem.merhoc.entities.Company;
 import org.chorem.merhoc.entities.Contact;

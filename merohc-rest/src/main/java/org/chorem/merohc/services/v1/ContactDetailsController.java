@@ -1,7 +1,10 @@
-package org.chorem.merohc.services;
+package org.chorem.merohc.services.v1;
 
 import org.chorem.merhoc.entities.*;
-import org.chorem.merohc.MerohcApplicationConfig;
+import org.chorem.merohc.bean.AddressDTO;
+import org.chorem.merohc.bean.EmailDTO;
+import org.chorem.merohc.bean.PhoneDTO;
+import org.chorem.merohc.services.MerohcPersistenceContextSingleton;
 import org.nuiton.topia.persistence.TopiaNoResultException;
 import org.nuiton.topia.persistence.TopiaQueryException;
 import org.springframework.web.bind.annotation.*;

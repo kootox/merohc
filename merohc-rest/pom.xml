@@ -3,52 +3,49 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.chorem</groupId>
-        <artifactId>merohc</artifactId>
-        <version>0.1-SNAPSHOT</version>
-    </parent>
+  <parent>
+    <groupId>org.chorem</groupId>
+    <artifactId>merohc</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
 
-    <groupId>org.chorem.merohc</groupId>
-    <artifactId>merohc-rest</artifactId>
-    <packaging>war</packaging>
+  <groupId>org.chorem.merohc</groupId>
+  <artifactId>merohc-rest</artifactId>
+  <packaging>war</packaging>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>1.3.0.RELEASE</version>
-            <!--excludes>
-                <exclude></exclude>
-            </excludes-->
-        </dependency>
+  <dependencies>
 
-        <!--dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>1.3.0.RELEASE</version>
-            <scope>provided</scope>
-        </dependency-->
+    <dependency>
+      <groupId>org.chorem.merohc</groupId>
+      <artifactId>merohc-entities</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
-        <dependency>
-            <groupId>org.chorem.merohc</groupId>
-            <artifactId>merohc-entities</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
 
-        <dependency>
-            <!-- Import dependency management from Spring Boot -->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-dependencies</artifactId>
-            <version>1.3.0.RELEASE</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
-    </dependencies>
+    <dependency>
+      <!-- Import dependency management from Spring Boot -->
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-dependencies</artifactId>
+      <version>${springBootVersion}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
 
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+  </dependencies>
 
 
     <build>
@@ -56,7 +53,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.3.0.RELEASE</version>
+                <version>${springBootVersion}</version>
                 <executions>
                     <execution>
                         <goals>
