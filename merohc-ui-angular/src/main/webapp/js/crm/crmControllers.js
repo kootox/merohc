@@ -417,10 +417,11 @@ merohcCRMControllers.controller('EmailViewController',
     function ($scope, $http, $state, merohcConfig){
 
   $scope.companyId=$state.params.companyId;
+  $scope.contactId=$state.params.contactId;
   $scope.emailId=$state.params.emailId;
 
   $scope.updateEmail=function(){
-    if ($scope.companyId && $scope.emailId){
+    if ($scope.emailId){
       $http.get(merohcConfig.BASE_URL + '/email/'+$scope.emailId).success(function(data){
         $scope.email = data;
       });
@@ -429,15 +430,23 @@ merohcCRMControllers.controller('EmailViewController',
 
   $scope.deleteEmail=function(){
     //FIXME JC 151216 - Should ask confirmation for deletion
-    if ($scope.companyId && $scope.emailId){
+    if ($scope.emailId){
       $http.delete(merohcConfig.BASE_URL + '/email/'+$scope.emailId).success(function(data){
-        $state.go('crm.companies.view', {companyId : $scope.companyId});
+        if ($scope.companyId){
+          $state.go('crm.companies.view', {companyId : $scope.companyId});
+        } else {
+          $state.go('crm.contacts.view', {contactId : $scope.contactId});
+        }
       });
     }
   }
 
   $scope.editEmail=function(){
-    $state.go('crm.companies.editEmail', { companyId: $scope.companyId, emailId: $scope.emailId });
+    if ($scope.companyId){
+      $state.go('crm.companies.editEmail', { companyId: $scope.companyId, emailId: $scope.emailId });
+    } else {
+      $state.go('crm.contacts.editEmail', { contactId: $scope.contactId, emailId: $scope.emailId });
+    }
   }
 
   $scope.updateEmail();
@@ -447,29 +456,39 @@ merohcCRMControllers.controller('EmailViewController',
 merohcCRMControllers.controller('EmailEditController', ['$scope', '$http', '$state', 'merohc-config',function ($scope, $http, $state, merohcConfig) {
 
   $scope.emailId=$state.params.emailId;
+  $scope.contactId=$state.params.contactId;
+  $scope.companyId=$state.params.companyId;
 
   $scope.saveEmail = function(){
     $http({
-            method  : 'POST',
-            url     : merohcConfig.BASE_URL + '/email',
-            data    : $.param($scope.email),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-         })
-          .success(function(data) {
-            $state.go('crm.companies.viewEmail', { companyId: $state.params.companyId, emailId: $state.params.emailId });
-          });
+      method  : 'POST',
+      url     : merohcConfig.BASE_URL + '/email',
+      data    : $.param($scope.email),  // pass in data as strings
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    })
+    .success(function(data) {
+      if ($scope.companyId){
+        $state.go('crm.companies.viewEmail', { companyId: $scope.companyId, emailId: $scope.emailId });
+      } else {
+        $state.go('crm.contacts.viewEmail', { contactId: $scope.contactId, emailId: $scope.emailId });
+      }
+    });
   };
 
   $scope.updateEmail=function(){
-      if ($scope.emailId){
-        $http.get(merohcConfig.BASE_URL + '/email/'+$scope.emailId).success(function(data){
-          $scope.email = data;
-        });
-      }
-    };
+    if ($scope.emailId){
+      $http.get(merohcConfig.BASE_URL + '/email/'+$scope.emailId).success(function(data){
+        $scope.email = data;
+      });
+    }
+  };
 
   $scope.cancel = function(){
-    $state.go('crm.companies.viewEmail', { companyId: $state.params.companyId, emailId: $state.params.emailId });
+    if ($scope.companyId){
+      $state.go('crm.companies.viewEmail', { companyId: $scope.companyId, emailId: $scope.emailId });
+    } else {
+      $state.go('crm.contacts.viewEmail', { contactId: $scope.contactId, emailId: $scope.emailId });
+    }
   }
 
   $scope.updateEmail();

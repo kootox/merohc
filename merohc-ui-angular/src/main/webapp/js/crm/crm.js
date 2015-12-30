@@ -142,6 +142,18 @@ merohcCRM.config(
         templateUrl:'crm/partials/emailCreateCard.html',
         controller: 'EmailCreateController'
       })
+
+      .state('crm.contacts.viewEmail', {
+        url: '/:contactId/email/:emailId',
+        templateUrl: 'crm/partials/emailViewCard.html',
+        controller: 'EmailViewController'
+      })
+
+      .state('crm.contacts.editEmail', {
+        url: '/:contactId/email/:emailId/edit',
+        templateUrl: 'crm/partials/emailEditCard.html',
+        controller: 'EmailEditController'
+      })
 }]);
 
 
