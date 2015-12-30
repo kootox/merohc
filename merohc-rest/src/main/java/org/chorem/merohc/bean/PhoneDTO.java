@@ -1,8 +1,8 @@
 package org.chorem.merohc.bean;
 
-import org.chorem.merhoc.entities.Company;
-import org.chorem.merhoc.entities.Contact;
-import org.chorem.merhoc.entities.Phone;
+import org.chorem.merohc.entities.Company;
+import org.chorem.merohc.entities.Contact;
+import org.chorem.merohc.entities.Phone;
 
 /**
  * Created by couteau on 20/12/15.

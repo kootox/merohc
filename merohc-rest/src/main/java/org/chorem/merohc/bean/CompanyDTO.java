@@ -1,6 +1,6 @@
 package org.chorem.merohc.bean;
 
-import org.chorem.merhoc.entities.Company;
+import org.chorem.merohc.entities.Company;
 
 public class CompanyDTO {
     protected String name;
