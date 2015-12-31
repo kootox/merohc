@@ -60,6 +60,12 @@
       <artifactId>commons-logging</artifactId>
     </dependency>
 
+    <!-- Spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -112,11 +118,11 @@
             <configuration>
               <!-- Corresponding to extracted package from zargo file -->
               <fullPackagePath>
-                org.chorem.merhoc.entities
+                org.chorem.merohc.entities
               </fullPackagePath>
               <!-- defaultPackage used for generation -->
               <defaultPackage>
-                org.chorem.merhoc.entities
+                org.chorem.merohc.entities
               </defaultPackage>
               <templates>
                 org.nuiton.topia.templates.TopiaMetaTransformer

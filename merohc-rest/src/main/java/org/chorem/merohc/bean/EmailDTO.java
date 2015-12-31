@@ -1,8 +1,8 @@
 package org.chorem.merohc.bean;
 
-import org.chorem.merhoc.entities.Company;
-import org.chorem.merhoc.entities.Contact;
-import org.chorem.merhoc.entities.Email;
+import org.chorem.merohc.entities.Company;
+import org.chorem.merohc.entities.Contact;
+import org.chorem.merohc.entities.Email;
 
 public class EmailDTO {
 

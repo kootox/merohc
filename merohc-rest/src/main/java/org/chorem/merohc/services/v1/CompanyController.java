@@ -3,28 +3,28 @@ package org.chorem.merohc.services.v1;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.chorem.merhoc.entities.*;
 import org.chorem.merohc.bean.CompanyDTO;
 import org.chorem.merohc.bean.ContactDTO;
-import org.chorem.merohc.services.MerohcPersistenceContextSingleton;
+import org.chorem.merohc.entities.Company;
+import org.chorem.merohc.entities.CompanyTopiaDao;
+import org.chorem.merohc.entities.Contact;
+import org.chorem.merohc.entities.ContactTopiaDao;
+import org.nuiton.topia.persistence.TopiaDao;
 import org.nuiton.topia.persistence.TopiaNoResultException;
 import org.nuiton.topia.persistence.TopiaQueryException;
+import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
-@RestController
-public class CompanyController {
+@Controller
+@Transactional
+public class CompanyController extends AbstractService {
 
-    MerohcTopiaPersistenceContext persistenceContext = MerohcPersistenceContextSingleton.getInstance();
-
-    CompanyTopiaDao companyDao =
-        persistenceContext.getCompanyDao();
-
-    ContactTopiaDao contactDao = persistenceContext.getContactDao();
-
-    @RequestMapping("/v1/company")
+    @ResponseBody
+    @RequestMapping(value="v1//company", method= RequestMethod.GET)
     public List<CompanyDTO> listCompanies() {
-        List<Company> companies = companyDao.findAll();
+        List<Company> companies = getCompanyDao().findAll();
 
         List<CompanyDTO> dtos = new ArrayList<CompanyDTO>();
 
@@ -36,20 +36,22 @@ public class CompanyController {
         return dtos;
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/company", method= RequestMethod.PUT)
     public CompanyDTO addCompany(@RequestParam(value="name") String name,
                                  @RequestParam(value="type", required = false) String type) {
-        Company companyToStore = companyDao.create();
+        Company companyToStore = getCompanyDao().create();
         companyToStore.setName(name);
-        persistenceContext.commit();
+        getPersistenceContext().commit();
         CompanyDTO dto = new CompanyDTO(companyToStore);
         return dto;
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/company/{id:.+}", method= RequestMethod.GET)
     public CompanyDTO getCompany(@PathVariable String id) {
         try {
-            Company company = companyDao.forTopiaIdEquals(id).findAny();
+            Company company = getCompanyDao().forTopiaIdEquals(id).findAny();
             CompanyDTO dto = new CompanyDTO(company);
             return dto;
         } catch (TopiaNoResultException tnre) {
@@ -57,30 +59,34 @@ public class CompanyController {
         }
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/company/{id:.+}", method= RequestMethod.DELETE)
     public void deleteCompany(@PathVariable String id) {
         try {
+            CompanyTopiaDao companyDao = getCompanyDao();
             Company company = companyDao.forTopiaIdEquals(id).findAny();
             companyDao.delete(company);
-            persistenceContext.commit();
+            getPersistenceContext().commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/company", method= RequestMethod.POST)
     public CompanyDTO editCompany(@RequestParam(value="id") String id,
                                   @RequestParam(value="name") String name,
                                   @RequestParam(value="type", required = false) String type) {
 
-        Company company = companyDao.forTopiaIdEquals(id).findAny();
+        Company company = getCompanyDao().forTopiaIdEquals(id).findAny();
         //FIXME JC151211 - Deal with TopiaNoResultException
         company.setName(name);
-        persistenceContext.commit();
+        getPersistenceContext().commit();
         CompanyDTO dto = new CompanyDTO(company);
         return dto;
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/company/{id}/contact", method= RequestMethod.GET)
     public List<ContactDTO> getContacts(@PathVariable String id) {
 
@@ -88,11 +94,10 @@ public class CompanyController {
 
         List <ContactDTO> dtos = new ArrayList<ContactDTO>();
 
-        Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
+        Company company = getCompanyDao().forTopiaIdEquals(id).findAnyOrNull();
 
         try {
-            contacts = contactDao.forCompanyEquals(company)
-                                   .findAll();
+            contacts = getContactDao().forCompanyEquals(company).findAll();
 
             for (Contact contact:contacts) {
                 dtos.add(new ContactDTO(contact));
@@ -106,6 +111,7 @@ public class CompanyController {
         return dtos;
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/company/{id}/contact", method= RequestMethod.PUT)
     public ContactDTO addContact(@PathVariable String id,
                                  @RequestParam String firstName,
@@ -113,9 +119,9 @@ public class CompanyController {
                                  @RequestParam Boolean active,
                                  @RequestParam String description) {
 
-        Company company = companyDao.forTopiaIdEquals(id).findAnyOrNull();
+        Company company = getCompanyDao().forTopiaIdEquals(id).findAnyOrNull();
 
-        Contact contact = contactDao.create();
+        Contact contact = getContactDao().create();
 
         if (company != null){
             contact.setFirstName(firstName);
@@ -125,15 +131,16 @@ public class CompanyController {
             contact.setDescription(description);
         }
 
-        persistenceContext.commit();
+        getPersistenceContext().commit();
         ContactDTO dto = new ContactDTO(contact);
         return dto;
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/contact", method= RequestMethod.GET)
     public List<ContactDTO> getContacts() {
 
-        List<Contact> contacts = contactDao.findAll();
+        List<Contact> contacts = getContactDao().findAll();
 
         List<ContactDTO> dtos = new ArrayList<ContactDTO>();
 
@@ -146,13 +153,14 @@ public class CompanyController {
     }
 
 
+    @ResponseBody
     @RequestMapping(value="/v1/contact/{id:.+}", method= RequestMethod.GET)
     public ContactDTO getContact(@PathVariable String id) {
 
         ContactDTO dto = null;
 
         try {
-            Contact contact = contactDao.forTopiaIdEquals(id).findAny();
+            Contact contact = getContactDao().forTopiaIdEquals(id).findAny();
             dto = new ContactDTO(contact);
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
@@ -161,6 +169,7 @@ public class CompanyController {
         return dto;
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/contact", method= RequestMethod.POST)
     public ContactDTO editContact(@RequestParam String firstName,
                                   @RequestParam String lastName,
@@ -168,7 +177,7 @@ public class CompanyController {
                                   @RequestParam Boolean active,
                                   @RequestParam String description) {
 
-        Contact contact = contactDao.forTopiaIdEquals(id).findAnyOrNull();
+        Contact contact = getContactDao().forTopiaIdEquals(id).findAnyOrNull();
 
         if (contact != null){
             contact.setFirstName(firstName);
@@ -179,19 +188,28 @@ public class CompanyController {
             //FIXME JC151216 Should throw an exception
         }
 
-        persistenceContext.commit();
+        getPersistenceContext().commit();
         ContactDTO dto = new ContactDTO(contact);
         return dto;
     }
 
+    @ResponseBody
     @RequestMapping(value="/v1/contact/{id:.+}", method= RequestMethod.DELETE)
     public void deleteContact(@PathVariable String id) {
         try {
-            Contact contact = contactDao.forTopiaIdEquals(id).findAny();
-            contactDao.delete(contact);
-            persistenceContext.commit();
+            Contact contact = getContactDao().forTopiaIdEquals(id).findAny();
+            getContactDao().delete(contact);
+            getPersistenceContext().commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }
+    }
+
+    protected CompanyTopiaDao getCompanyDao() {
+        return getPersistenceContext().getCompanyDao();
+    }
+
+    protected ContactTopiaDao getContactDao() {
+        return getPersistenceContext().getContactDao();
     }
 }

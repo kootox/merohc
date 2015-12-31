@@ -19,7 +19,7 @@ public class MerohcApplicationConfig {
 
     protected TopiaConfiguration topiaConfiguration;
 
-    public MerohcApplicationConfig() {
+    public MerohcApplicationConfig(String configFileName) {
 
         applicationConfig = new ApplicationConfig();
 
@@ -28,7 +28,7 @@ public class MerohcApplicationConfig {
 
         applicationConfig.setEncoding("UTF-8");
 
-        applicationConfig.setConfigFileName("merohc.properties");
+        applicationConfig.setConfigFileName(configFileName);
 
         try {
             applicationConfig.parse();

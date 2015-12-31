@@ -1,6 +1,6 @@
 package org.chorem.merohc.bean;
 
-import org.chorem.merhoc.entities.Contact;
+import org.chorem.merohc.entities.Contact;
 
 /**
  * Created by couteau on 15/12/15.
