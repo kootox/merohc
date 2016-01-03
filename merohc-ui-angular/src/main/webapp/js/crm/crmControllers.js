@@ -183,12 +183,10 @@ merohcCRMControllers.controller('CompanyDetailController',
 merohcCRMControllers.controller('CompanyCreateController', ['$scope', '$http', '$state', 'merohc-config',function ($scope, $http, $state, merohcConfig) {
 
   $scope.saveCompany = function(){
-    $http({
-            method  : 'PUT',
-            url     : merohcConfig.BASE_URL + '/company',
-            data    : $.param($scope.company),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-         })
+    $http.post(merohcConfig.BASE_URL + '/company/add',
+               $.param($scope.company),  // pass in data as strings
+               {headers : { 'Content-Type': 'application/x-www-form-urlencoded' }}  // set the headers so angular passing info as form data (not request payload)
+         )
           .success(function(data) {
 
             //update company and selectedItem in parent scope

@@ -41,7 +41,7 @@ public class CompanyController extends AbstractService {
     }
 
     @ResponseBody
-    @RequestMapping(value="/v1/company", method= RequestMethod.PUT)
+    @RequestMapping(value="/v1/company/add", method= RequestMethod.POST)
     public CompanyDTO addCompany(@RequestParam(value="name") String name,
                                  @RequestParam(value="type", required = false) String type) {
         Company companyToStore = getCompanyDao().create();
