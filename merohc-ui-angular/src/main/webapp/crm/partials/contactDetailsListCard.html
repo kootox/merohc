@@ -1,8 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading clearfix">
         <h3 class="panel-title pull-left">Moyens de contact</h3>
-        <!-- FIXME ng-if -->
-
         <a class="btn btn-primary pull-right hidden-xs"
            ng-if="companyId!==undefined"
            ui-sref="crm.companies.createEmail({companyId:'{{companyId}}',contactId:'{{contactId}}'})">
@@ -16,14 +14,28 @@
             <span>Email</span>
         </a>
         <a class="btn btn-primary pull-right hidden-xs"
+           ng-if="companyId!==undefined"
            ui-sref="crm.companies.createAddress({companyId:'{{companyId}}',contactId:'{{contactId}}'})">
             <i class="fa fa-plus"></i>
             <span>Adresse</span>
         </a>
         <a class="btn btn-primary pull-right hidden-xs"
+           ng-if="companyId===undefined"
+           ui-sref="crm.contacts.createAddress({contactId:'{{contactId}}'})">
+            <i class="fa fa-plus"></i>
+            <span>Adresse</span>
+        </a>
+        <a class="btn btn-primary pull-right hidden-xs"
+           ng-if="companyId!==undefined"
            ui-sref="crm.companies.createPhone({companyId:'{{companyId}}',contactId:'{{contactId}}'})">
             <i class="fa fa-plus"></i>
-            <span>Phone</span>
+            <span>Téléphone</span>
+        </a>
+        <a class="btn btn-primary pull-right hidden-xs"
+           ng-if="companyId===undefined"
+           ui-sref="crm.contacts.createPhone({contactId:'{{contactId}}'})">
+            <i class="fa fa-plus"></i>
+            <span>Téléphone</span>
         </a>
     </div>
     <div class="list-group">

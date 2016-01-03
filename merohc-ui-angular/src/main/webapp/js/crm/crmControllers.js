@@ -500,6 +500,7 @@ merohcCRMControllers.controller('AddressCreateController',
     function ($scope, $http, $state, $stateParams, merohcConfig) {
 
   $scope.contactId=$state.params.contactId;
+  $scope.companyId=$state.params.companyId;
 
   $scope.saveAddress = function(){
     if ($scope.contactId!=null){
@@ -510,7 +511,11 @@ merohcCRMControllers.controller('AddressCreateController',
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       })
       .success(function(data) {
-        $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: data.id });
+        if ($scope.company==null){
+          $state.go('crm.contacts.viewAddress', { contactId: $state.params.contactId, addressId: data.id });
+        } else {
+          $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: data.id });
+        }
       });
     } else {
       $http({
@@ -540,6 +545,7 @@ merohcCRMControllers.controller('AddressViewController',
     function ($scope, $http, $state, merohcConfig){
 
   $scope.companyId=$state.params.companyId;
+  $scope.contactId=$state.params.contactId;
   $scope.addressId=$state.params.addressId;
 
   $scope.updateAddress=function(){
@@ -554,13 +560,21 @@ merohcCRMControllers.controller('AddressViewController',
     //FIXME JC 151216 - Should ask confirmation for deletion
     if ($scope.companyId && $scope.addressId){
       $http.delete(merohcConfig.BASE_URL + '/address/'+$scope.addressId).success(function(data){
-        $state.go('crm.companies.view', {companyId : $scope.companyId});
+        if ($scope.companyId){
+          $state.go('crm.companies.view', {companyId : $scope.companyId});
+        } else {
+          $state.go('crm.contacts.view', {contactId : $scope.contactId});
+        }
       });
     }
   }
 
   $scope.editAddress=function(){
-    $state.go('crm.companies.editAddress', { companyId: $scope.companyId, addressId: $scope.addressId });
+      if ($scope.companyId){
+        $state.go('crm.companies.editAddress', { companyId: $scope.companyId, addressId: $scope.addressId });
+      } else {
+        $state.go('crm.contacts.editAddress', { contactId: $scope.contactId, addressId: $scope.addressId });
+      }
   }
 
   $scope.updateAddress();
@@ -572,17 +586,23 @@ merohcCRMControllers.controller('AddressEditController',
     function ($scope, $http, $state, merohcConfig) {
 
   $scope.addressId=$state.params.addressId;
+  $scope.contactId=$state.params.contactId;
+  $scope.companyId=$state.params.companyId;
 
   $scope.saveAddress = function(){
     $http({
-            method  : 'POST',
-            url     : merohcConfig.BASE_URL + '/address',
-            data    : $.param($scope.address),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-         })
-          .success(function(data) {
-            $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: $state.params.addressId });
-          });
+      method  : 'POST',
+      url     : merohcConfig.BASE_URL + '/address',
+      data    : $.param($scope.address),  // pass in data as strings
+      headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+    })
+    .success(function(data) {
+      if ($scope.companyId){
+        $state.go('crm.companies.viewAddress', { companyId: $scope.companyId, addressId: $scope.addressId });
+      } else {
+        $state.go('crm.contacts.viewAddress', { contactId: $scope.contactId, addressId: $scope.addressId });
+      }
+    });
   };
 
   $scope.updateAddress=function(){
@@ -594,7 +614,11 @@ merohcCRMControllers.controller('AddressEditController',
     };
 
   $scope.cancel = function(){
-    $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: $state.params.addressId });
+    if ($scope.companyId){
+      $state.go('crm.companies.viewAddress', { companyId: $scope.companyId, addressId: $scope.addressId });
+    } else {
+      $state.go('crm.contacts.viewAddress', { contactId: $scope.contactId, addressId: $scope.addressId });
+    }
   }
 
   $scope.updateAddress();
@@ -606,6 +630,7 @@ merohcCRMControllers.controller('PhoneCreateController',
     function ($scope, $http, $state, $stateParams, merohcConfig) {
 
   $scope.contactId=$state.params.contactId;
+  $scope.companyId=$state.params.companyId;
 
   $scope.savePhone = function(){
     if ($scope.contactId!=null){
@@ -616,7 +641,11 @@ merohcCRMControllers.controller('PhoneCreateController',
         headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
       })
       .success(function(data) {
-        $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, phoneId: data.id });
+        if ($scope.company==null){
+          $state.go('crm.contacts.viewPhone', { contactId: $state.params.phoneId, phoneId: data.id });
+        } else {
+          $state.go('crm.companies.viewPhone', { companyId: $state.params.phoneId, phoneId: data.id });
+        }
       });
     } else {
       $http({
@@ -646,6 +675,7 @@ merohcCRMControllers.controller('PhoneViewController',
     function ($scope, $http, $state, merohcConfig){
 
   $scope.companyId=$state.params.companyId;
+  $scope.contactId=$state.params.contactId;
   $scope.phoneId=$state.params.phoneId;
 
   $scope.updatePhone=function(){
@@ -660,13 +690,21 @@ merohcCRMControllers.controller('PhoneViewController',
     //FIXME JC 151216 - Should ask confirmation for deletion
     if ($scope.companyId && $scope.phoneId){
       $http.delete(merohcConfig.BASE_URL + '/phone/'+$scope.phoneId).success(function(data){
-        $state.go('crm.companies.view', {companyId : $scope.companyId});
+        if ($scope.companyId){
+          $state.go('crm.companies.view', {companyId : $scope.companyId});
+        } else {
+          $state.go('crm.contacts.view', {contactId : $scope.contactId});
+        }
       });
     }
   }
 
   $scope.editPhone=function(){
-    $state.go('crm.companies.editPhone', { companyId: $scope.companyId, phoneId: $scope.phoneId });
+    if ($scope.companyId){
+      $state.go('crm.companies.editPhone', { companyId: $scope.companyId, phoneId: $scope.phoneId });
+    } else {
+      $state.go('crm.contacts.editPhone', { contactId: $scope.contactId, phoneId: $scope.phoneId });
+    }
   }
 
   $scope.updatePhone();
@@ -678,6 +716,8 @@ merohcCRMControllers.controller('PhoneEditController',
     function ($scope, $http, $state, merohcConfig) {
 
   $scope.phoneId=$state.params.phoneId;
+  $scope.contactId=$state.params.contactId;
+  $scope.companyId=$state.params.companyId;
 
   $scope.savePhone = function(){
     $http({
@@ -687,7 +727,11 @@ merohcCRMControllers.controller('PhoneEditController',
       headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
     })
     .success(function(data) {
-      $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, phoneId: $state.params.phoneId });
+      if ($scope.companyId){
+        $state.go('crm.companies.viewPhone', { companyId: $scope.companyId, phoneId: $scope.phoneId });
+      } else {
+        $state.go('crm.contacts.viewPhone', { contactId: $scope.contactId, phoneId: $scope.phoneId });
+      }
     });
   };
 
@@ -700,7 +744,11 @@ merohcCRMControllers.controller('PhoneEditController',
   };
 
   $scope.cancel = function(){
-    $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, phoneId: $state.params.phoneId });
+    if ($scope.companyId){
+      $state.go('crm.companies.viewPhone', { companyId: $scope.companyId, phoneId: $scope.phoneId });
+    } else {
+      $state.go('crm.contacts.viewPhone', { contactId: $scope.contactId, phoneId: $scope.phoneId });
+    }
   }
 
   $scope.updatePhone();
