@@ -98,7 +98,6 @@ public class ContactDetailsController extends AbstractService {
             email.setCompany(company);
         }
 
-        getPersistenceContext().commit();
         EmailDTO dto = new EmailDTO(email);
         return dto;
     }
@@ -119,7 +118,6 @@ public class ContactDetailsController extends AbstractService {
             email.setContact(contact);
         }
 
-        getPersistenceContext().commit();
         EmailDTO dto = new EmailDTO(email);
         return dto;
     }
@@ -155,7 +153,6 @@ public class ContactDetailsController extends AbstractService {
             //FIXME JC151216 Should throw an exception
         }
 
-        getPersistenceContext().commit();
         EmailDTO dto = new EmailDTO(email);
         return dto;
     }
@@ -167,7 +164,6 @@ public class ContactDetailsController extends AbstractService {
             EmailTopiaDao emailDao = getEmailDao();
             Email email = emailDao.forTopiaIdEquals(id).findAny();
             emailDao.delete(email);
-            getPersistenceContext().commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }
@@ -247,7 +243,6 @@ public class ContactDetailsController extends AbstractService {
             address.setCompany(company);
         }
 
-        getPersistenceContext().commit();
         AddressDTO dto = new AddressDTO(address);
         return dto;
     }
@@ -276,7 +271,6 @@ public class ContactDetailsController extends AbstractService {
             address.setContact(contact);
         }
 
-        getPersistenceContext().commit();
         AddressDTO dto = new AddressDTO(address);
         return dto;
     }
@@ -320,7 +314,6 @@ public class ContactDetailsController extends AbstractService {
             //FIXME JC151216 Should throw an exception
         }
 
-        getPersistenceContext().commit();
         AddressDTO dto = new AddressDTO(address);
         return dto;
     }
@@ -332,7 +325,6 @@ public class ContactDetailsController extends AbstractService {
             AddressTopiaDao addressDao = getAddressDao();
             Address address = addressDao.forTopiaIdEquals(id).findAny();
             addressDao.delete(address);
-            getPersistenceContext().commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }
@@ -406,7 +398,6 @@ public class ContactDetailsController extends AbstractService {
             phone.setCompany(company);
         }
 
-        getPersistenceContext().commit();
         PhoneDTO dto = new PhoneDTO(phone);
         return dto;
     }
@@ -429,7 +420,6 @@ public class ContactDetailsController extends AbstractService {
             phone.setContact(contact);
         }
 
-        getPersistenceContext().commit();
         PhoneDTO dto = new PhoneDTO(phone);
         return dto;
     }
@@ -467,7 +457,6 @@ public class ContactDetailsController extends AbstractService {
             //FIXME JC151216 Should throw an exception
         }
 
-        getPersistenceContext().commit();
         PhoneDTO dto = new PhoneDTO(phone);
         return dto;
     }
@@ -479,7 +468,6 @@ public class ContactDetailsController extends AbstractService {
             PhoneTopiaDao phoneDao = getPhoneDao();
             Phone phone = phoneDao.forTopiaIdEquals(id).findAny();
             phoneDao.delete(phone);
-            getPersistenceContext().commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }

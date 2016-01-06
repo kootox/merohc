@@ -9,12 +9,16 @@ import org.chorem.merohc.entities.Company;
 import org.chorem.merohc.entities.CompanyTopiaDao;
 import org.chorem.merohc.entities.Contact;
 import org.chorem.merohc.entities.ContactTopiaDao;
-import org.nuiton.topia.persistence.TopiaDao;
 import org.nuiton.topia.persistence.TopiaNoResultException;
 import org.nuiton.topia.persistence.TopiaQueryException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @CrossOrigin
 @Controller
@@ -42,7 +46,6 @@ public class CompanyController extends AbstractService {
                                  @RequestParam(value="type", required = false) String type) {
         Company companyToStore = getCompanyDao().create();
         companyToStore.setName(name);
-        getPersistenceContext().commit();
         CompanyDTO dto = new CompanyDTO(companyToStore);
         return dto;
     }
@@ -66,7 +69,6 @@ public class CompanyController extends AbstractService {
             CompanyTopiaDao companyDao = getCompanyDao();
             Company company = companyDao.forTopiaIdEquals(id).findAny();
             companyDao.delete(company);
-            getPersistenceContext().commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }
@@ -81,7 +83,6 @@ public class CompanyController extends AbstractService {
         Company company = getCompanyDao().forTopiaIdEquals(id).findAny();
         //FIXME JC151211 - Deal with TopiaNoResultException
         company.setName(name);
-        getPersistenceContext().commit();
         CompanyDTO dto = new CompanyDTO(company);
         return dto;
     }
@@ -131,7 +132,6 @@ public class CompanyController extends AbstractService {
             contact.setDescription(description);
         }
 
-        getPersistenceContext().commit();
         ContactDTO dto = new ContactDTO(contact);
         return dto;
     }
@@ -188,7 +188,6 @@ public class CompanyController extends AbstractService {
             //FIXME JC151216 Should throw an exception
         }
 
-        getPersistenceContext().commit();
         ContactDTO dto = new ContactDTO(contact);
         return dto;
     }
@@ -199,7 +198,6 @@ public class CompanyController extends AbstractService {
         try {
             Contact contact = getContactDao().forTopiaIdEquals(id).findAny();
             getContactDao().delete(contact);
-            getPersistenceContext().commit();
         } catch (TopiaNoResultException tnre) {
             //Entity does not already exist, so nothing to do
         }
