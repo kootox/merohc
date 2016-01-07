@@ -21,6 +21,7 @@
   <!--Services-->
   <bean id="companyController" class="org.chorem.merohc.services.v1.CompanyController"/>
   <bean id="contactController" class="org.chorem.merohc.services.v1.ContactDetailsController"/>
+  <bean id="referentialController" class="org.chorem.merohc.services.v1.ReferentialController"/>
 
   <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>
   <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

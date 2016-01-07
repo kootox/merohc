@@ -1,4 +1,4 @@
-var merohcApp = angular.module('merohcApp', ['ngRoute','ui.select','ngSanitize', 'ui.bootstrap', 'ui.router', 'merohc.crm', 'merohc.controllers']);
+var merohcApp = angular.module('merohcApp', ['ngRoute','ui.select','ngSanitize', 'ui.bootstrap', 'ui.router', 'merohc.crm', 'merohc.referentials', 'merohc.controllers']);
 
 merohcApp.run(
   [        '$rootScope', '$state', '$stateParams',

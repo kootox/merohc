@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Détails de la catégorie de prestations</h3>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-danger" ng-click="deleteCategory()">
+                <i class="fa fa-trash"></i>
+                <span>Delete</span>
+            </a>
+        </div>
+        <a class="btn btn-danger pull-right hidden-xs" ng-click="deleteCategory()">
+            <i class="fa fa-trash"></i>
+            <span>Delete</span>
+        </a>
+        <div class="btn-group pull-right visible-xs">
+            <a class="btn btn-primary" ng-click="editCategory()">
+                <i class="fa fa-pencil"></i>
+                <span>Edit</span>
+            </a>
+        </div>
+        <a class="btn btn-primary pull-right hidden-xs" ng-click="editCategory()">
+            <i class="fa fa-pencil"></i>
+            <span>Edit</span>
+        </a>
+    </div>
+    <div class="list-group">
+        <div class="list-group-item">
+            <label>Nom</label>
+            <h4 class="list-group-item-heading">{{category.name}}</h4>
+        </div>
+    </div>
+</div>

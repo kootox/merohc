@@ -16,6 +16,8 @@
     <script src="js/merohc.js"></script>
     <script src="js/crm/crm.js"></script>
     <script src="js/crm/crmControllers.js"></script>
+    <script src="js/referentials/referentials.js"></script>
+    <script src="js/referentials/referentialsControllers.js"></script>
     <script src="js/merohcControllers.js"></script>
 
     <link rel="stylesheet" href="css/chorem.css">
@@ -95,10 +97,20 @@
                         </a>
                     </li>
                     <li>
-                        <a ui-sref="about" >
-                        <i class="fa fa-gears"></i>
-                        Admin
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <i class="fa fa-building-o"></i>
+                            Admin
+                            <span class="caret"></span>
                         </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class="dropdown-header">Référentiels</li>
+                            <li><a ui-sref="referentials.invoiceCategory">Catégories de factures</a></li>
+                            <li class="divider"></li>
+                            <li><a ui-sref="about">
+                                <i class="fa fa-info"></i>
+                                A propos
+                            </a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>

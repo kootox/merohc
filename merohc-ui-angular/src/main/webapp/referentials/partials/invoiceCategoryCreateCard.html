@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+
+    <div class="panel-heading clearfix">
+        <h3 class="panel-title pull-left">Créer une catégorie de prestations</h3>
+        <div class="btn-group pull-right">
+            <button class="btn btn-danger" ng-click="cancel()">
+                <i class="fa fa-times"></i>
+                Annuler
+            </button>
+            <button class="btn btn-success" ng-click="saveCategory()">
+                <i class="fa fa-check"></i>
+                Sauver
+            </button>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Nom</label>
+                <div class="col-xs-9">
+                    <input type="text" class="form-control" ng-model="category.name">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        &nbsp;
+    </div>
+</div>
