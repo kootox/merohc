@@ -4,10 +4,12 @@ import org.chorem.merohc.entities.Address;
 import org.chorem.merohc.entities.Company;
 import org.chorem.merohc.entities.Contact;
 
+import java.io.Serializable;
+
 /**
  * Created by couteau on 19/12/15.
  */
-public class AddressDTO {
+public class AddressDTO implements Serializable {
 
     protected String address1;
 
@@ -51,6 +53,8 @@ public class AddressDTO {
         this.name = address.getName();
 
     }
+
+    public AddressDTO() {}
 
     public String getAddress1() {
         return address1;

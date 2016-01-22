@@ -18,6 +18,7 @@ import org.nuiton.topia.persistence.TopiaQueryException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,40 +86,39 @@ public class ContactDetailsController extends AbstractService {
     @ResponseBody
     @RequestMapping(value="/v1/company/{id}/email", method= RequestMethod.PUT)
     public EmailDTO addEmailToCompany(@PathVariable String id,
-                                 @RequestParam String value,
-                                 @RequestParam String name) {
+                                      @RequestBody EmailDTO email) {
 
         Company company = getCompanyDao().forTopiaIdEquals(id).findAnyOrNull();
 
-        Email email = getEmailDao().create();
+        Email emailEntity = getEmailDao().create();
 
         if (company != null){
-            email.setName(name);
-            email.setEmail(value);
-            email.setCompany(company);
+            emailEntity.setName(email.getName());
+            emailEntity.setEmail(email.getCompanyId());
+            emailEntity.setCompany(company);
         }
 
-        EmailDTO dto = new EmailDTO(email);
+        getPersistenceContext().commit();
+        EmailDTO dto = new EmailDTO(emailEntity);
         return dto;
     }
 
     @ResponseBody
     @RequestMapping(value="/v1/contact/{id}/email", method= RequestMethod.PUT)
     public EmailDTO addEmailToContact(@PathVariable String id,
-                                      @RequestParam String value,
-                                      @RequestParam String name) {
+                                      @RequestBody EmailDTO email) {
 
         Contact contact = getContactDao().forTopiaIdEquals(id).findAnyOrNull();
 
-        Email email = getEmailDao().create();
+        Email emailEntity = getEmailDao().create();
 
         if (contact != null){
-            email.setName(name);
-            email.setEmail(value);
-            email.setContact(contact);
+            emailEntity.setName(email.getName());
+            emailEntity.setEmail(email.getValue());
+            emailEntity.setContact(contact);
         }
 
-        EmailDTO dto = new EmailDTO(email);
+        EmailDTO dto = new EmailDTO(emailEntity);
         return dto;
     }
 
@@ -222,24 +222,19 @@ public class ContactDetailsController extends AbstractService {
     @ResponseBody
     @RequestMapping(value="/v1/company/{id}/address", method= RequestMethod.PUT)
     public AddressDTO addAddressToCompany(@PathVariable String id,
-                                          @RequestParam String address1,
-                                          @RequestParam String address2,
-                                          @RequestParam String zipCode,
-                                          @RequestParam String city,
-                                          @RequestParam String country,
-                                          @RequestParam String name) {
+                                          @RequestBody AddressDTO addressDTO) {
 
         Company company = getCompanyDao().forTopiaIdEquals(id).findAnyOrNull();
 
         Address address = getAddressDao().create();
 
         if (company != null){
-            address.setName(name);
-            address.setAddress1(address1);
-            address.setAddress2(address2);
-            address.setCity(city);
-            address.setZipCode(zipCode);
-            address.setCountry(country);
+            address.setName(addressDTO.getName());
+            address.setAddress1(addressDTO.getAddress1());
+            address.setAddress2(addressDTO.getAddress2());
+            address.setCity(addressDTO.getCity());
+            address.setZipCode(addressDTO.getZipCode());
+            address.setCountry(addressDTO.getCountry());
             address.setCompany(company);
         }
 
@@ -250,24 +245,19 @@ public class ContactDetailsController extends AbstractService {
     @ResponseBody
     @RequestMapping(value="/v1/contact/{id}/address", method= RequestMethod.PUT)
     public AddressDTO addAddressToContact(@PathVariable String id,
-                                          @RequestParam String address1,
-                                          @RequestParam String address2,
-                                          @RequestParam String zipCode,
-                                          @RequestParam String city,
-                                          @RequestParam String country,
-                                          @RequestParam String name) {
+                                          @RequestBody AddressDTO addressDTO) {
 
         Contact contact = getContactDao().forTopiaIdEquals(id).findAnyOrNull();
 
         Address address = getAddressDao().create();
 
         if (contact != null){
-            address.setName(name);
-            address.setAddress1(address1);
-            address.setAddress2(address2);
-            address.setCity(city);
-            address.setZipCode(zipCode);
-            address.setCountry(country);
+            address.setName(addressDTO.getName());
+            address.setAddress1(addressDTO.getAddress1());
+            address.setAddress2(addressDTO.getAddress2());
+            address.setCity(addressDTO.getCity());
+            address.setZipCode(addressDTO.getZipCode());
+            address.setCountry(addressDTO.getCountry());
             address.setContact(contact);
         }
 
@@ -383,18 +373,16 @@ public class ContactDetailsController extends AbstractService {
     @ResponseBody
     @RequestMapping(value="/v1/company/{id}/phone", method= RequestMethod.PUT)
     public PhoneDTO addPhoneToCompany(@PathVariable String id,
-                                      @RequestParam String number,
-                                      @RequestParam String type,
-                                      @RequestParam String name) {
+                                      @RequestBody PhoneDTO phoneDTO) {
 
         Company company = getCompanyDao().forTopiaIdEquals(id).findAnyOrNull();
 
         Phone phone = getPhoneDao().create();
 
         if (company != null){
-            phone.setName(name);
-            phone.setNumber(number);
-            phone.setType(type);
+            phone.setName(phoneDTO.getName());
+            phone.setNumber(phoneDTO.getNumber());
+            phone.setType(phoneDTO.getType());
             phone.setCompany(company);
         }
 
@@ -405,18 +393,16 @@ public class ContactDetailsController extends AbstractService {
     @ResponseBody
     @RequestMapping(value="/v1/contact/{id}/phone", method= RequestMethod.PUT)
     public PhoneDTO addPhoneToContact(@PathVariable String id,
-                                      @RequestParam String number,
-                                      @RequestParam String type,
-                                      @RequestParam String name) {
+                                      @RequestBody PhoneDTO phoneDTO) {
 
         Contact contact = getContactDao().forTopiaIdEquals(id).findAnyOrNull();
 
         Phone phone = getPhoneDao().create();
 
         if (contact != null){
-            phone.setName(name);
-            phone.setNumber(number);
-            phone.setType(type);
+            phone.setName(phoneDTO.getName());
+            phone.setNumber(phoneDTO.getNumber());
+            phone.setType(phoneDTO.getType());
             phone.setContact(contact);
         }
 

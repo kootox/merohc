@@ -4,10 +4,12 @@ import org.chorem.merohc.entities.Company;
 import org.chorem.merohc.entities.Contact;
 import org.chorem.merohc.entities.Phone;
 
+import java.io.Serializable;
+
 /**
  * Created by couteau on 20/12/15.
  */
-public class PhoneDTO {
+public class PhoneDTO implements Serializable {
     protected String id;
     protected String number;
     protected String name;
@@ -31,6 +33,8 @@ public class PhoneDTO {
             this.contactId = contact.getTopiaId();
         }
     }
+
+    public PhoneDTO() {}
 
     public String getId() {
         return id;

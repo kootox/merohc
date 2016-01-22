@@ -4,7 +4,9 @@ import org.chorem.merohc.entities.Company;
 import org.chorem.merohc.entities.Contact;
 import org.chorem.merohc.entities.Email;
 
-public class EmailDTO {
+import java.io.Serializable;
+
+public class EmailDTO implements Serializable {
 
     protected String value;
 
@@ -32,6 +34,8 @@ public class EmailDTO {
             this.contactId = contact.getTopiaId();
         }
     }
+
+    public EmailDTO() {}
 
     public String getValue() {
         return value;
