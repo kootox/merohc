@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class CompanyController extends AbstractService {
 
     @ResponseBody
-    @RequestMapping(value="v1//company", method= RequestMethod.GET)
+    @RequestMapping(value="/v1/company", method= RequestMethod.GET)
     public List<CompanyDTO> listCompanies() {
         List<Company> companies = getCompanyDao().findAll();
 
