@@ -18,9 +18,9 @@ merohcControllers.controller('HomePageResumeController', ['$scope', '$http', 'me
     $scope.personNumber = data.length;
   });
 
-  /**$http.get('services/v1/Invoice').success(function(data){
-      $scope.invoiceNumber = data.length;
-    });**/
+  $http.get(baseUrl + '/invoice').success(function(data){
+    $scope.invoiceNumber = data.length;
+  });
 
 }]);
 

@@ -1,0 +1,160 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">Créer une facture vente</h3>
+    <div class="btn-group pull-right">
+      <button class="btn btn-danger" ng-click="cancel()">
+        <i class="fa fa-times"></i>
+        Annuler
+      </button>
+      <button class="btn btn-success" ng-click="saveInvoice()">
+        <i class="fa fa-check"></i>
+        Sauver
+      </button>
+      <button class="btn btn-success" ng-click="addInvoiceItem()">
+        <i class="fa fa-check"></i>
+        Ajouter une ligne
+      </button>
+    </div>
+  </div>
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Nom</label>
+      <div class="col-xs-9">
+        <input type="text" class="form-control" ng-model="invoice.name">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Référence</label>
+      <div class="col-xs-9">
+        <input type="text" class="form-control" ng-model="invoice.reference">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Type</label>
+      <div class="col-xs-9">
+        <input type="text" class="form-control" ng-model="invoice.type">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Date d'émission</label>
+      <div class="col-xs-9">
+        <p class="input-group">
+      <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="invoice.emittedDate"
+             is-open="popupEmitted.opened" datepicker-options="dateOptions" ng-required="true" close-text="Fermer"/>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="openEmitted()"><i class="fa fa-calendar"></i></button>
+      </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Date limite</label>
+      <div class="col-xs-9">
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="invoice.dueDate"
+                 is-open="popupDue.opened" datepicker-options="dateOptions" ng-required="true" close-text="Fermer"/>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="openDue()"><i class="fa fa-calendar"></i></button>
+      </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Date de paiement</label>
+      <div class="col-xs-9">
+        <p class="input-group">
+          <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="invoice.paymentDate"
+                 is-open="popupPayment.opened" datepicker-options="dateOptions" ng-required="true" close-text="Fermer"/>
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="openPayment()"><i class="fa fa-calendar"></i></button>
+      </span>
+        </p>
+      </div>
+    </div>
+  </form>
+
+  <table class="table table-hover">
+
+    <thead>
+      <tr class="active"><th>Item</th><th>Valeur</th><th>Catégorie</th><th>&nbsp;</th></tr>
+    </thead>
+
+    <tbody>
+      <tr ng-repeat="item in invoice.invoiceItems">
+        <td>{{item.description}}</td>
+        <td>{{item.amount}}</td>
+        <td>{{item.invoiceCategoryId}}</td>
+        <td><button class="btn btn-danger" ng-click="removeItem(item)">
+          <i class="fa fa-times"></i>
+          Supprimer
+        </button></td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><strong>{{totalAmount}}</strong></td>
+        <td></td>
+      </tr>
+    </tbody>
+
+  </table>
+
+  <div class="panel-footer">
+    &nbsp;
+  </div>
+</div>
+
+<div class="panel panel-default" ng-if="addItemPanel">
+  <div class="panel-heading clearfix">
+    <h3 class="panel-title pull-left">Ajouter une ligne</h3>
+  </div>
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Description</label>
+      <div class="col-xs-9">
+        <input type="text" class="form-control" ng-model="item.description">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Montant</label>
+      <div class="col-xs-9">
+        <input type="text" class="form-control" ng-model="item.amount">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">TVA</label>
+      <div class="col-xs-9">
+        <input type="text" class="form-control" ng-model="item.VATRate">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Catégorie</label>
+      <div class="col-xs-9">
+
+        <ui-select ng-model="item.invoiceCategoryId" theme="bootstrap">
+          <ui-select-match placeholder="Sélectionnez une catégorie">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="category.id as category in categories">
+            <div ng-bind-html="category.name"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </form>
+
+  <div class="panel-footer">
+      <button class="btn btn-success" ng-click="addItem(item)">
+          <i class="fa fa-check"></i>
+          Ajouter
+      </button>
+  </div>
+</div>
