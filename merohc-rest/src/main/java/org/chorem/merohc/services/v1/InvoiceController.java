@@ -98,10 +98,6 @@ public class InvoiceController extends AbstractService {
             item.setDescription(itemDTO.getDescription());
             item.setAmount(itemDTO.getAmount());
             item.setVATRate(itemDTO.getVATRate());
-            System.out.println(itemDTO.getDescription());
-            System.out.println(itemDTO.getAmount());
-            System.out.println(itemDTO.getVATRate());
-            System.out.println(itemDTO.getInvoiceCategoryId());
             InvoiceCategory category = getInvoiceCategoryDao().forTopiaIdEquals(itemDTO.getInvoiceCategoryId()).findAny();
             item.setInvoiceCategory(category);
 

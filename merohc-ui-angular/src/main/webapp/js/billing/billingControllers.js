@@ -129,7 +129,6 @@ merohcBillingControllers.controller('InvoiceCreateController',
   $scope.invoice.invoiceItems= new Array();
 
   $scope.saveInvoice = function(){
-    $scope.invoice.topiaId="a";
     $http({
             method  : 'POST',
             url     : merohcConfig.BASE_URL + '/invoice/add',
