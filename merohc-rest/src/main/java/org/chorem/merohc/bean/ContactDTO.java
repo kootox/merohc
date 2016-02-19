@@ -2,17 +2,21 @@ package org.chorem.merohc.bean;
 
 import org.chorem.merohc.entities.Contact;
 
+import java.io.Serializable;
+
 /**
  * Created by couteau on 15/12/15.
  */
-public class ContactDTO {
+public class ContactDTO implements Serializable {
 
     protected String id;
     protected String firstName;
     protected String lastName;
-    protected Boolean active;
+    protected boolean active;
     protected String companyId;
     protected String description;
+
+    public ContactDTO() {}
 
     public ContactDTO(Contact contact){
         super();
@@ -49,11 +53,11 @@ public class ContactDTO {
         this.lastName = lastName;
     }
 
-    public Boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 

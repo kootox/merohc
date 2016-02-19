@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,12 +37,12 @@ public class ReferentialController extends AbstractService {
         return dtos;
     }
 
-    //FIXME JC160106 Should replace POST by PUT and remove /add in url when issue #1 is fixed
     @ResponseBody
-    @RequestMapping(value="/v1/referential/invoiceCategory/add", method= RequestMethod.POST)
-    public InvoiceCategoryDTO addInvoiceCategory(@RequestParam(value="name") String name) {
+    @RequestMapping(value="/v1/referential/invoiceCategory", method= RequestMethod.PUT)
+    public InvoiceCategoryDTO addInvoiceCategory(@RequestBody InvoiceCategoryDTO invoiceCategoryDTO) {
+        //FIXME ymartel 20160219 : check if name does not already exist
         InvoiceCategory categoryToStore = getInvoiceCategoryDao().create();
-        categoryToStore.setName(name);
+        categoryToStore.setName(invoiceCategoryDTO.getName());
         InvoiceCategoryDTO dto = new InvoiceCategoryDTO(categoryToStore);
         return dto;
     }

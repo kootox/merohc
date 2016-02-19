@@ -183,12 +183,10 @@ merohcCRMControllers.controller('CompanyDetailController',
 merohcCRMControllers.controller('CompanyCreateController', ['$scope', '$http', '$state', 'merohc-config',function ($scope, $http, $state, merohcConfig) {
 
   $scope.saveCompany = function(){
-    $http({
-            method  : 'PUT',
-            url     : merohcConfig.BASE_URL + '/company',
-            data    : $.param($scope.company),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-         })
+    $http.post(merohcConfig.BASE_URL + '/company/add',
+               $.param($scope.company),  // pass in data as strings
+               {headers : { 'Content-Type': 'application/x-www-form-urlencoded' }}  // set the headers so angular passing info as form data (not request payload)
+         )
           .success(function(data) {
 
             //update company and selectedItem in parent scope
@@ -246,11 +244,11 @@ merohcCRMControllers.controller('CompanyEditController', ['$scope', '$http', '$s
 merohcCRMControllers.controller('ContactCreateController', ['$scope', '$http', '$state', '$stateParams', 'merohc-config',function ($scope, $http, $state, $stateParams, merohcConfig) {
 
   $scope.saveContact = function(){
+    var param = { contact : $scope.contact };
     $http({
-            method  : 'PUT',
-            url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/contact',
-            data    : $.param($scope.contact),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+            method      : 'PUT',
+            url         : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/contact',
+            data        : $scope.contact
          })
           .success(function(data) {
             $state.go('crm.companies.viewContact', { companyId: $state.params.companyId, contactId: data.id });
@@ -379,8 +377,7 @@ merohcCRMControllers.controller('EmailCreateController', ['$scope', '$http', '$s
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/contact/'+ $scope.contactId +'/email',
-        data    : $.param($scope.email),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        data    : $scope.email  // pass in data as strings
       })
       .success(function(data) {
         if ($scope.company==null){
@@ -393,8 +390,7 @@ merohcCRMControllers.controller('EmailCreateController', ['$scope', '$http', '$s
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/email',
-        data    : $.param($scope.email),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        data    : $scope.email
       })
       .success(function(data) {
         $state.go('crm.companies.viewEmail', { companyId: $state.params.companyId, emailId: data.id });
@@ -507,8 +503,7 @@ merohcCRMControllers.controller('AddressCreateController',
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/contact/'+ $scope.contactId +'/address',
-        data    : $.param($scope.address),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        data    : $scope.address
       })
       .success(function(data) {
         if ($scope.company==null){
@@ -521,8 +516,7 @@ merohcCRMControllers.controller('AddressCreateController',
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/address',
-        data    : $.param($scope.address),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        data    : $scope.address
       })
       .success(function(data) {
         $state.go('crm.companies.viewAddress', { companyId: $state.params.companyId, addressId: data.id });
@@ -637,8 +631,7 @@ merohcCRMControllers.controller('PhoneCreateController',
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/contact/'+ $scope.contactId +'/phone',
-        data    : $.param($scope.phone),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        data    : $scope.phone
       })
       .success(function(data) {
         if ($scope.company==null){
@@ -651,8 +644,7 @@ merohcCRMControllers.controller('PhoneCreateController',
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/phone',
-        data    : $.param($scope.phone),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        data    : $scope.phone
       })
       .success(function(data) {
         $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, phoneId: data.id });

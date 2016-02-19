@@ -9,16 +9,12 @@ import org.chorem.merohc.entities.Company;
 import org.chorem.merohc.entities.CompanyTopiaDao;
 import org.chorem.merohc.entities.Contact;
 import org.chorem.merohc.entities.ContactTopiaDao;
+import org.nuiton.topia.persistence.TopiaDao;
 import org.nuiton.topia.persistence.TopiaNoResultException;
 import org.nuiton.topia.persistence.TopiaQueryException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @Controller
@@ -41,7 +37,7 @@ public class CompanyController extends AbstractService {
     }
 
     @ResponseBody
-    @RequestMapping(value="/v1/company", method= RequestMethod.PUT)
+    @RequestMapping(value="/v1/company/add", method= RequestMethod.POST)
     public CompanyDTO addCompany(@RequestParam(value="name") String name,
                                  @RequestParam(value="type", required = false) String type) {
         Company companyToStore = getCompanyDao().create();
@@ -115,24 +111,21 @@ public class CompanyController extends AbstractService {
     @ResponseBody
     @RequestMapping(value="/v1/company/{id}/contact", method= RequestMethod.PUT)
     public ContactDTO addContact(@PathVariable String id,
-                                 @RequestParam String firstName,
-                                 @RequestParam String lastName,
-                                 @RequestParam Boolean active,
-                                 @RequestParam String description) {
+                                 @RequestBody ContactDTO contact) {
 
         Company company = getCompanyDao().forTopiaIdEquals(id).findAnyOrNull();
 
-        Contact contact = getContactDao().create();
+        Contact contactEntity = getContactDao().create();
 
         if (company != null){
-            contact.setFirstName(firstName);
-            contact.setLastName(lastName);
-            contact.setCompany(company);
-            contact.setActive(active);
-            contact.setDescription(description);
+            contactEntity.setFirstName(contact.getFirstName());
+            contactEntity.setLastName(contact.getLastName());
+            contactEntity.setCompany(company);
+            contactEntity.setActive(contact.isActive());
+            contactEntity.setDescription(contact.getDescription());
         }
 
-        ContactDTO dto = new ContactDTO(contact);
+        ContactDTO dto = new ContactDTO(contactEntity);
         return dto;
     }
 
