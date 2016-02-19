@@ -125,7 +125,6 @@ merohcReferentialsControllers.controller('InvoiceCategoryCreateController',
     function ($scope, $http, $state, merohcConfig) {
 
   $scope.saveCategory = function(){
-    console.log($scope.category);
     $http({
             method  : 'PUT',
             url     : merohcConfig.BASE_URL + '/referential/invoiceCategory',
