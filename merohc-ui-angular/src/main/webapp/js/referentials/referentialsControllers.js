@@ -125,12 +125,11 @@ merohcReferentialsControllers.controller('InvoiceCategoryCreateController',
     function ($scope, $http, $state, merohcConfig) {
 
   $scope.saveCategory = function(){
-    //FIXME JC160107 - Change method to PUT and remove add from url when #1 is closed
+    console.log($scope.category);
     $http({
-            method  : 'POST',
-            url     : merohcConfig.BASE_URL + '/referential/invoiceCategory/add',
-            data    : $.param($scope.category),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+            method  : 'PUT',
+            url     : merohcConfig.BASE_URL + '/referential/invoiceCategory',
+            data    : $scope.category
          })
           .success(function(data) {
 

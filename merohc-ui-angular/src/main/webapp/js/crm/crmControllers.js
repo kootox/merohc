@@ -644,8 +644,7 @@ merohcCRMControllers.controller('PhoneCreateController',
       $http({
         method  : 'PUT',
         url     : merohcConfig.BASE_URL + '/company/'+ $stateParams.companyId +'/phone',
-        data    : $.param($scope.phone),  // pass in data as strings
-        headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+        data    : $scope.phone
       })
       .success(function(data) {
         $state.go('crm.companies.viewPhone', { companyId: $state.params.companyId, phoneId: data.id });

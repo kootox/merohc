@@ -7,6 +7,8 @@ public class InvoiceCategoryDTO {
     protected String id;
     protected String name;
 
+    public InvoiceCategoryDTO() {}
+
     public InvoiceCategoryDTO (InvoiceCategory category) {
         this.id = category.getTopiaId();
         this.name = category.getName();
