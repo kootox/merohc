@@ -2,7 +2,9 @@ package org.chorem.merohc.bean;
 
 import org.chorem.merohc.entities.InvoiceCategory;
 
-public class InvoiceCategoryDTO {
+import java.io.Serializable;
+
+public class InvoiceCategoryDTO implements Serializable {
 
     protected String id;
     protected String name;
