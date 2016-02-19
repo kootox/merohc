@@ -23,7 +23,7 @@ merohcBilling.config(
       })
 
       .state('billing.invoices.view', {
-        url: '/:billingId',
+        url: '/:invoiceId',
         templateUrl: 'billing/partials/invoiceViewCard.html',
         controller: 'InvoiceViewController'
       })

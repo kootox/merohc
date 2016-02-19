@@ -99,9 +99,21 @@ merohcBillingControllers.controller('InvoiceViewController',
     if ($scope.invoiceId){
       $http.get(merohcConfig.BASE_URL + '/invoice/'+$scope.invoiceId).success(function(data){
         $scope.invoice = data;
+
+        //calculate totalAmount
+        $scope.totalAmount=0;
+        $scope.invoice.invoiceItems.forEach(function(item){
+          $scope.totalAmount = $scope.totalAmount + item.amount;
+        });
       });
     }
   };
+
+  $scope.updateCategories = function(){
+    $http.get(merohcConfig.BASE_URL + '/referential/invoiceCategory').success(function(data){
+      $scope.categories = data;
+    });
+  }
 
   $scope.deleteInvoice=function(){
     //FIXME JC 151212 - Should ask confirmation for deletion
@@ -117,6 +129,7 @@ merohcBillingControllers.controller('InvoiceViewController',
   }
 
   $scope.updateInvoice();
+  $scope.updateCategories();
 
 }]);
 
@@ -130,8 +143,8 @@ merohcBillingControllers.controller('InvoiceCreateController',
 
   $scope.saveInvoice = function(){
     $http({
-            method  : 'POST',
-            url     : merohcConfig.BASE_URL + '/invoice/add',
+            method  : 'PUT',
+            url     : merohcConfig.BASE_URL + '/invoice',
             data    : $scope.invoice,  // pass in data as strings
          })
           .success(function(data) {
@@ -147,6 +160,122 @@ merohcBillingControllers.controller('InvoiceCreateController',
   $scope.cancel = function(){
     $state.go('billing.invoices');
   }
+
+  $scope.addInvoiceItem = function(){
+    $scope.addItemPanel=true;
+  }
+
+  $scope.addItem = function(item){
+    for (var index in $scope.categories) {
+      var category = $scope.categories[index];
+      if (category.id===item.invoiceCategoryId){
+        item.invoiceCategoryName=category.name;
+      }
+    }
+
+    $scope.invoice.invoiceItems.push(item);
+    $scope.addItemPanel = false;
+  }
+
+  $scope.cancelAddItem = function(){
+    $scope.item=null;
+    $scope.addItemPanel = false;
+  }
+
+  $scope.removeItem = function(item){
+    var index = $scope.invoice.invoiceItems.indexOf(item);
+
+    if (index > -1) {
+        $scope.invoice.invoiceItems.splice(index, 1);
+    }
+  }
+
+  $scope.updateCategories = function(){
+    $http.get(merohcConfig.BASE_URL + '/referential/invoiceCategory').success(function(data){
+      $scope.categories = data;
+    });
+
+  }
+
+  $scope.updateCompanies = function(){
+    $http.get(merohcConfig.BASE_URL + '/company').success(function(data){
+      $scope.companies = data;
+    });
+
+  }
+
+  $scope.openEmitted = function() {
+      $scope.popupEmitted.opened = true;
+    };
+
+  $scope.popupEmitted = {
+      opened: false
+    };
+
+  $scope.openDue = function() {
+      $scope.popupDue.opened = true;
+    };
+
+  $scope.popupDue = {
+      opened: false
+    };
+
+  $scope.openPayment = function() {
+      $scope.popupPayment.opened = true;
+    };
+
+  $scope.popupPayment = {
+      opened: false
+    };
+
+  $scope.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1
+    };
+
+   $scope.format = 'dd-MMMM-yyyy'
+
+  $scope.updateCategories();
+  $scope.updateCompanies();
+
+}]);
+
+merohcBillingControllers.controller('InvoiceEditController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig) {
+
+  $scope.invoiceId=$state.params.invoiceId;
+
+  $scope.updateInvoice=function(){
+    if ($scope.invoiceId){
+      $http.get(merohcConfig.BASE_URL + '/invoice/'+$scope.invoiceId).success(function(data){
+        $scope.invoice = data;
+        $scope.oldInvoice = angular.copy(data);
+      });
+    }
+  };
+
+  $scope.saveInvoice = function(){
+    $http({
+            method  : 'POST',
+            url     : merohcConfig.BASE_URL + '/invoice',
+            data    : $scope.invoice,  // pass in data as strings
+         })
+          .success(function(data) {
+
+            //update company and selectedItem in parent scope
+            $scope.addItem(data);
+            $scope.$parent.selectedItem=data;
+
+            $state.go('billing.invoices.view', {invoiceId : data.id});
+          });
+  };
+
+  $scope.cancel = function(){
+    $state.go('billing.invoices.view', {invoiceId : $scope.invoiceId});
+  }
+
+  $scope.updateInvoice();
 
   $scope.addInvoiceItem = function(){
     $scope.addItemPanel=true;
@@ -173,6 +302,13 @@ merohcBillingControllers.controller('InvoiceCreateController',
   $scope.updateCategories = function(){
     $http.get(merohcConfig.BASE_URL + '/referential/invoiceCategory').success(function(data){
       $scope.categories = data;
+    });
+
+  }
+
+  $scope.updateCompanies = function(){
+    $http.get(merohcConfig.BASE_URL + '/company').success(function(data){
+      $scope.companies = data;
     });
 
   }
@@ -210,46 +346,6 @@ merohcBillingControllers.controller('InvoiceCreateController',
 
   $scope.updateCategories();
 
-}]);
-
-merohcBillingControllers.controller('InvoiceEditController',
-    ['$scope', '$http', '$state', 'merohc-config',
-    function ($scope, $http, $state, merohcConfig) {
-
-  $scope.invoiceId=$state.params.invoiceId;
-
-  //FIXME datepicker
-
-  $scope.updateInvoice=function(){
-    if ($scope.invoiceId){
-      $http.get(merohcConfig.BASE_URL + '/invoice/'+$scope.invoiceId).success(function(data){
-        $scope.invoice = data;
-        $scope.oldInvoice = angular.copy(data);
-      });
-    }
-  };
-
-  $scope.saveInvoice = function(){
-    $http({
-            method  : 'POST',
-            url     : merohcConfig.BASE_URL + '/invoice',
-            data    : $.param($scope.invoice),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-         })
-          .success(function(data) {
-
-            //update invoice and selectedItem in parent scope
-            $scope.updateItem($scope.oldInvoice, data);
-            $scope.$parent.selectedItem=data;
-
-            $state.go('billing.invoices.view', {invoiceId : $scope.invoiceId});
-          });
-  };
-
-  $scope.cancel = function(){
-    $state.go('billing.invoices.view', {invoiceId : $scope.invoiceId});
-  }
-
-  $scope.updateInvoice();
+  $scope.updateCompanies();
 
 }]);

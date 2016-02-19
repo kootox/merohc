@@ -10,6 +10,7 @@ public class InvoiceItemDTO {
     Double VATRate;
     String invoiceId;
     String invoiceCategoryId;
+    String invoiceCategoryName;
 
     public InvoiceItemDTO(){}
 
@@ -23,6 +24,7 @@ public class InvoiceItemDTO {
         }
         if (item.getInvoiceCategory() != null) {
             this.invoiceCategoryId = item.getInvoiceCategory().getTopiaId();
+            this.invoiceCategoryName = item.getInvoiceCategory().getName();
         }
     }
 
@@ -72,5 +74,13 @@ public class InvoiceItemDTO {
 
     public void setInvoiceCategoryId(String invoiceCategoryId) {
         this.invoiceCategoryId = invoiceCategoryId;
+    }
+
+    public String getInvoiceCategoryName() {
+        return invoiceCategoryName;
+    }
+
+    public void setInvoiceCategoryName(String invoiceCategoryName) {
+        this.invoiceCategoryName = invoiceCategoryName;
     }
 }
