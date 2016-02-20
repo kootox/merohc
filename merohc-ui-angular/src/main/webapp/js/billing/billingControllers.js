@@ -109,12 +109,6 @@ merohcBillingControllers.controller('InvoiceViewController',
     }
   };
 
-  $scope.updateCategories = function(){
-    $http.get(merohcConfig.BASE_URL + '/referential/invoiceCategory').success(function(data){
-      $scope.categories = data;
-    });
-  }
-
   $scope.deleteInvoice=function(){
     //FIXME JC 151212 - Should ask confirmation for deletion
     if ($scope.invoiceId){
@@ -129,7 +123,6 @@ merohcBillingControllers.controller('InvoiceViewController',
   }
 
   $scope.updateInvoice();
-  $scope.updateCategories();
 
 }]);
 
@@ -194,14 +187,18 @@ merohcBillingControllers.controller('InvoiceCreateController',
     $http.get(merohcConfig.BASE_URL + '/referential/invoiceCategory').success(function(data){
       $scope.categories = data;
     });
-
   }
 
   $scope.updateCompanies = function(){
     $http.get(merohcConfig.BASE_URL + '/company').success(function(data){
       $scope.companies = data;
     });
+  }
 
+  $scope.updateProjects = function(){
+    $http.get(merohcConfig.BASE_URL + '/project').success(function(data){
+      $scope.projects = data;
+    });
   }
 
   $scope.openEmitted = function() {
@@ -237,6 +234,7 @@ merohcBillingControllers.controller('InvoiceCreateController',
 
   $scope.updateCategories();
   $scope.updateCompanies();
+  $scope.updateProjects();
 
 }]);
 
@@ -310,14 +308,18 @@ merohcBillingControllers.controller('InvoiceEditController',
     $http.get(merohcConfig.BASE_URL + '/referential/invoiceCategory').success(function(data){
       $scope.categories = data;
     });
-
   }
 
   $scope.updateCompanies = function(){
     $http.get(merohcConfig.BASE_URL + '/company').success(function(data){
       $scope.companies = data;
     });
+  }
 
+  $scope.updateProjects = function(){
+    $http.get(merohcConfig.BASE_URL + '/project').success(function(data){
+      $scope.projects = data;
+    });
   }
 
   $scope.openEmitted = function() {
@@ -352,8 +354,8 @@ merohcBillingControllers.controller('InvoiceEditController',
    $scope.format = 'dd-MMMM-yyyy'
 
   $scope.updateCategories();
-
   $scope.updateCompanies();
+  $scope.updateProjects();
 
 }]);
 

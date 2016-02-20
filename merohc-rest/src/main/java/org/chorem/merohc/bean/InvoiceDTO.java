@@ -18,6 +18,8 @@ public class InvoiceDTO {
     List<InvoiceItemDTO> invoiceItems;
     String companyId;
     String companyName;
+    String projectId;
+    String projectName;
 
 
     public InvoiceDTO(){}
@@ -34,6 +36,11 @@ public class InvoiceDTO {
         if (invoice.getCompany() != null) {
             this.companyId = invoice.getCompany().getTopiaId();
             this.companyName = invoice.getCompany().getName();
+        }
+
+        if (invoice.getProject() != null) {
+            this.projectId = invoice.getProject().getTopiaId();
+            this.projectName = invoice.getProject().getName();
         }
     }
 
@@ -107,5 +114,21 @@ public class InvoiceDTO {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }
