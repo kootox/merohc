@@ -1,6 +1,9 @@
 package org.chorem.merohc.services.v1;
 
+import org.chorem.merohc.bean.BillCategoryDTO;
 import org.chorem.merohc.bean.InvoiceCategoryDTO;
+import org.chorem.merohc.entities.BillCategory;
+import org.chorem.merohc.entities.BillCategoryTopiaDao;
 import org.chorem.merohc.entities.InvoiceCategory;
 import org.chorem.merohc.entities.InvoiceCategoryTopiaDao;
 import org.nuiton.topia.persistence.TopiaNoResultException;
@@ -82,7 +85,70 @@ public class ReferentialController extends AbstractService {
         return dto;
     }
 
+    @ResponseBody
+    @RequestMapping(value="/v1/referential/billCategory", method= RequestMethod.GET)
+    public List<BillCategoryDTO> listBillCategories() {
+        List<BillCategory> categories = getBillCategoryDao().findAll();
+
+        List<BillCategoryDTO> dtos = new ArrayList<>();
+
+        for (BillCategory category:categories) {
+            BillCategoryDTO dto = new BillCategoryDTO(category);
+            dtos.add(dto);
+        }
+
+        return dtos;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/v1/referential/billCategory", method= RequestMethod.PUT)
+    public BillCategoryDTO addBillCategory(@RequestBody BillCategoryDTO billCategoryDTO) {
+        //FIXME jcouteau 20160220 : check if name does not already exist
+        BillCategory categoryToStore = getBillCategoryDao().create();
+        categoryToStore.setName(billCategoryDTO.getName());
+        BillCategoryDTO dto = new BillCategoryDTO(categoryToStore);
+        return dto;
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/v1/referential/billCategory/{id:.+}", method= RequestMethod.GET)
+    public BillCategoryDTO getBillCategory(@PathVariable String id) {
+        try {
+            BillCategory category = getBillCategoryDao().forTopiaIdEquals(id).findAny();
+            BillCategoryDTO dto = new BillCategoryDTO(category);
+            return dto;
+        } catch (TopiaNoResultException tnre) {
+            return null;
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/v1/referential/billCategory/{id:.+}", method= RequestMethod.DELETE)
+    public void deleteBillCategory(@PathVariable String id) {
+        try {
+            BillCategory category = getBillCategoryDao().forTopiaIdEquals(id).findAny();
+            getBillCategoryDao().delete(category);
+        } catch (TopiaNoResultException tnre) {
+            //Entity does not already exist, so nothing to do
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/v1/referential/billCategory", method= RequestMethod.POST)
+    public BillCategoryDTO editBillCategory(@RequestBody BillCategoryDTO billCategoryDTO) {
+
+        BillCategory category = getBillCategoryDao().forTopiaIdEquals(billCategoryDTO.getId()).findAny();
+        //FIXME jcouteau 20160220 - Deal with TopiaNoResultException
+        category.setName(billCategoryDTO.getName());
+        BillCategoryDTO dto = new BillCategoryDTO(category);
+        return dto;
+    }
+
     protected InvoiceCategoryTopiaDao getInvoiceCategoryDao() {
         return getPersistenceContext().getInvoiceCategoryDao();
+    }
+
+    protected BillCategoryTopiaDao getBillCategoryDao() {
+        return getPersistenceContext().getBillCategoryDao();
     }
 }

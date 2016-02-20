@@ -185,3 +185,188 @@ merohcReferentialsControllers.controller('InvoiceCategoryEditController',
   $scope.updateCategory();
 
 }]);
+
+merohcReferentialsControllers.controller('BillCategoryListController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig) {
+
+  $scope.items = '';
+
+  $scope.filteredItems = $scope.items;
+
+  $scope.searchTerm="";
+
+  $scope.selectedItem=$scope.items[0];
+
+  $scope.targetId="";
+
+  $scope.setTargetId=function(targetId){
+    $scope.targetId=targetId;
+  }
+
+  $scope.selectItem=function(selectedCategory){
+    $scope.selectedItem = selectedCategory;
+    $state.go('referentials.billCategory.view', { categoryId: selectedCategory.id });
+  };
+
+  $scope.selectItemById=function(id){
+    for (var index in $scope.items) {
+      var category = $scope.items[index];
+      if (category.id===id){
+        $scope.selectedItem=category;
+      }
+    }
+  };
+
+  $scope.isItemSelected=function(selectedCategory){
+    return selectedCategory===$scope.selectedItem;
+  };
+
+  $scope.filter=function(){
+    $scope.filteredItems=[];
+    for (var index in $scope.items) {
+      var category = $scope.items[index];
+      var regexp = new RegExp($scope.searchTerm,"i");
+      if (category.name.match(regexp)){
+        $scope.filteredItems.push(category);
+      }
+    }
+  };
+
+  $scope.updateItem = function(oldItem, newItem) {
+    for (var index in $scope.items) {
+      var category = $scope.items[index];
+      if (category.id===oldItem.id){
+        $scope.items[index]=newItem;
+      }
+    }
+
+    $scope.filter();
+  };
+
+  $scope.addItem = function(newItem) {
+    $scope.items.push(newItem);
+    $scope.filter();
+    $state.go('referentials.billCategory.view', { categoryId: newItem.id });
+  };
+
+  $scope.deleteItem = function(oldItem) {
+
+    for (var index in $scope.items) {
+      var category = $scope.items[index];
+      if (category.id===oldItem.id){
+        if (index > -1) {
+          $scope.items.splice(index, 1);
+        }
+      }
+    }
+    $state.go("referentials.billCategory");
+    $scope.refresh();
+  };
+
+  $scope.refresh=function(){
+    $http.get(merohcConfig.BASE_URL + '/referential/billCategory').success(function(data){
+      $scope.items = data;
+      $scope.filter();
+    });
+  };
+
+  $scope.refresh();
+
+}]);
+
+merohcReferentialsControllers.controller('BillCategoryViewController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig){
+
+  $scope.categoryId=$state.params.categoryId;
+
+  $scope.updateCategory=function(){
+    if ($scope.categoryId){
+      $http.get(merohcConfig.BASE_URL + '/referential/billCategory/'+$scope.categoryId).success(function(data){
+        $scope.category = data;
+      });
+    }
+  };
+
+  $scope.deleteCategory=function(){
+    //FIXME JC 151212 - Should ask confirmation for deletion
+    if ($scope.categoryId){
+      $http.delete(merohcConfig.BASE_URL + '/referential/billCategory/'+$scope.categoryId).success(function(data){
+        $scope.deleteItem($scope.category);
+      });
+    }
+  }
+
+  $scope.editCategory=function(){
+    $state.go('referentials.billCategory.edit', { categoryId: $scope.categoryId });
+  }
+
+  $scope.updateCategory();
+
+}]);
+
+merohcReferentialsControllers.controller('BillCategoryCreateController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig) {
+
+  $scope.saveCategory = function(){
+    $http({
+            method  : 'PUT',
+            url     : merohcConfig.BASE_URL + '/referential/billCategory',
+            data    : $scope.category
+         })
+          .success(function(data) {
+
+            //update category and selectedItem in parent scope
+            $scope.addItem(data);
+            $scope.$parent.selectedItem=data;
+
+            $state.go('referentials.billCategory.view', {categoryId : data.id});
+          });
+  };
+
+  $scope.cancel = function(){
+    $state.go('referentials.billCategory');
+  }
+
+}]);
+
+merohcReferentialsControllers.controller('BillCategoryEditController',
+    ['$scope', '$http', '$state', 'merohc-config',
+    function ($scope, $http, $state, merohcConfig) {
+
+  $scope.categoryId=$state.params.categoryId;
+
+  $scope.updateCategory=function(){
+    if ($scope.categoryId){
+      $http.get(merohcConfig.BASE_URL + '/referential/billCategory/'+$scope.categoryId).success(function(data){
+        $scope.category = data;
+        $scope.oldCategory = angular.copy(data);
+      });
+    }
+  };
+
+  $scope.saveCategory = function(){
+    $http({
+            method  : 'POST',
+            url     : merohcConfig.BASE_URL + '/referential/billCategory',
+            data    : $scope.category
+         })
+          .success(function(data) {
+
+            //update category and selectedItem in parent scope
+            $scope.updateItem($scope.oldCategory, data);
+            $scope.$parent.selectedItem=data;
+
+            $state.go('referentials.billCategory.view', { categoryId: $scope.categoryId});
+          });
+  };
+
+  $scope.cancel = function(){
+    $state.go('referentials.billCategory.view', { categoryId: $scope.categoryId});
+  }
+
+  $scope.updateCategory();
+
+}]);
