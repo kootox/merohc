@@ -47,6 +47,19 @@
     </div>
 
     <div class="form-group">
+      <label class="col-xs-3 control-label">Projet</label>
+      <div class="col-xs-9">
+
+        <ui-select ng-model="invoice.projectId" theme="bootstrap">
+          <ui-select-match placeholder="Sélectionnez un projet">{{$select.selected.name}}</ui-select-match>
+          <ui-select-choices repeat="project.id as project in projects">
+            <div ng-bind-html="project.name"></div>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label class="col-xs-3 control-label">Date d'émission</label>
       <div class="col-xs-9">
         <p class="input-group">
