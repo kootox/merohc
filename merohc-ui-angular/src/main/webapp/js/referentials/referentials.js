@@ -33,4 +33,28 @@ merohcCRM.config(
         templateUrl: 'referentials/partials/invoiceCategoryEditCard.html',
         controller: 'InvoiceCategoryEditController'
       })
+
+      .state('referentials.billCategory', {
+        url: '/billCategories',
+        templateUrl: 'referentials/partials/billCategoryList.html',
+        controller:'BillCategoryListController'
+      })
+
+      .state('referentials.billCategory.add', {
+        url: '/add',
+        templateUrl: 'referentials/partials/billCategoryCreateCard.html',
+        controller:'BillCategoryCreateController'
+      })
+
+      .state('referentials.billCategory.view', {
+        url: '/:categoryId',
+        templateUrl: 'referentials/partials/billCategoryViewCard.html',
+        controller: 'BillCategoryViewController'
+      })
+
+      .state('referentials.billCategory.edit', {
+        url: '/:categoryId/edit',
+        templateUrl: 'referentials/partials/billCategoryEditCard.html',
+        controller: 'BillCategoryEditController'
+      })
 }]);
