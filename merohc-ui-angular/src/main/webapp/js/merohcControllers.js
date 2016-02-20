@@ -8,6 +8,8 @@ merohcControllers.controller('HomePageResumeController', ['$scope', '$http', 'me
 
   $scope.invoiceNumber=10;
 
+  $scope.projectNumber=10;
+
   var baseUrl = merohcConfig.BASE_URL
 
   $http.get(baseUrl + '/company').success(function(data){
@@ -20,6 +22,10 @@ merohcControllers.controller('HomePageResumeController', ['$scope', '$http', 'me
 
   $http.get(baseUrl + '/invoice').success(function(data){
     $scope.invoiceNumber = data.length;
+  });
+
+  $http.get(baseUrl + '/project').success(function(data){
+    $scope.projectNumber = data.length;
   });
 
 }]);
