@@ -264,7 +264,7 @@ merohcBillingControllers.controller('InvoiceEditController',
           .success(function(data) {
 
             //update company and selectedItem in parent scope
-            $scope.addItem(data);
+            $scope.updateItem($scope.oldInvoice, data);
             $scope.$parent.selectedItem=data;
 
             $state.go('billing.invoices.view', {invoiceId : data.id});
