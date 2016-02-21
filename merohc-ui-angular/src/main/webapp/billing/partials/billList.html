@@ -1,0 +1,51 @@
+<div class="bootcards-container">
+    <div class="row">
+        <div class="col-sm-6 bootcards-list" id="list">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="search-form">
+                        <div class="row">
+                            <div class="col-xs-9">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" placeholder="Search Bills..."
+                                           ng-model="searchTerm" ng-change="filter()">
+                                    <i class="fa fa-search"></i>
+                                </div>
+                            </div>
+                            <div class="col-xs-3">
+                                <a class="btn btn-primary btn-block" ui-sref="billing.bills.add">
+                                    <i class="fa fa-plus"></i>
+                                    <span>Add</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-group">
+                    <a class="list-group-item" href
+                       ng-repeat="bill in filteredItems | orderBy:'name'"
+                       ng-class="{'active':isItemSelected(bill)}"
+                       ng-click="selectItem(bill)">
+                        <i class="fa fa-3x fa-building-o pull-left"></i>
+                        <h4 class="list-group-item-heading">{{bill.reference}}</h4>
+                        <p class="list-group-item-text">{{bill.amount}}&nbsp;{{bill.currency}}</p>
+                    </a>
+
+                </div>
+
+                <div class="panel-footer">
+                    <small class="pull-left">&nbsp;</small>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-6 bootcards-cards" ui-view>
+
+        </div>
+
+    </div>
+
+</div>
