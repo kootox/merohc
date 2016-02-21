@@ -62,12 +62,19 @@ public class InvoiceController extends AbstractService {
             item.setVATRate(itemDTO.getVATRate());
             InvoiceCategory category = getInvoiceCategoryDao().forTopiaIdEquals(itemDTO.getInvoiceCategoryId()).findAny();
             item.setInvoiceCategory(category);
+            item.setInvoice(invoiceToStore);
             items.add(item);
         }
 
-        //transformation dto -> entity des items
-        invoiceToStore.setInvoiceItem(items);
+        //transformation entity -> dto des items
+        List<InvoiceItemDTO> storedDTOs = new ArrayList<>();
+        for (InvoiceItem item:items){
+            InvoiceItemDTO itemDTO = new InvoiceItemDTO(item);
+            storedDTOs.add(itemDTO);
+        }
+
         dto = new InvoiceDTO(invoiceToStore);
+        dto.setInvoiceItems(storedDTOs);
         return dto;
     }
 
@@ -120,9 +127,15 @@ public class InvoiceController extends AbstractService {
             items.add(item);
         }
 
-        //transformation dto -> entity des items
-        invoiceToStore.setInvoiceItem(items);
+        //transformation entity -> dto des items
+        List<InvoiceItemDTO> storedDTOs = new ArrayList<>();
+        for (InvoiceItem item:items){
+            InvoiceItemDTO itemDTO = new InvoiceItemDTO(item);
+            storedDTOs.add(itemDTO);
+        }
+
         dto = new InvoiceDTO(invoiceToStore);
+        dto.setInvoiceItems(storedDTOs);
         return dto;
     }
 

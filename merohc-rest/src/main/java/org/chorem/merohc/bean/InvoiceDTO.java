@@ -31,10 +31,6 @@ public class InvoiceDTO {
         this.reference = invoice.getReference();
         this.name = invoice.getName();
         this.invoiceItems = new ArrayList<>();
-        for (InvoiceItem item:invoice.getInvoiceItem()){
-            InvoiceItemDTO dto = new InvoiceItemDTO(item);
-            this.invoiceItems.add(dto);
-        }
         if (invoice.getCompany() != null) {
             this.companyId = invoice.getCompany().getTopiaId();
             this.companyName = invoice.getCompany().getName();
