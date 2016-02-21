@@ -102,10 +102,21 @@
                         </a>
                     </li>
                     <li>
-                        <a href="/#">
+                        <a href="/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                         <i class="fa fa-money"></i>
-                        Financial
+                            Financial
+                            <span class="caret"></span>
                         </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a ui-sref="billing.invoices">
+                                <i class="fa fa-money"></i>
+                                Factures ventes
+                            </a></li>
+                            <li><a ui-sref="billing.bills">
+                                <i class="fa fa-money"></i>
+                                Factures achats
+                            </a></li>
+                        </ul>
                     </li>
                     <li>
                         <a href="/#">

@@ -33,4 +33,28 @@ merohcBilling.config(
         templateUrl: 'billing/partials/invoiceEditCard.html',
         controller: 'InvoiceEditController'
       })
+
+      .state('billing.bills', {
+        url: '/bills',
+        templateUrl: 'billing/partials/billList.html',
+        controller:'BillListController'
+      })
+
+      .state('billing.bills.add', {
+        url: '/add',
+        templateUrl: 'billing/partials/billCreateCard.html',
+        controller:'BillCreateController'
+      })
+
+      .state('billing.bills.view', {
+        url: '/:billId',
+        templateUrl: 'billing/partials/billViewCard.html',
+        controller: 'BillViewController'
+      })
+
+      .state('billing.bills.edit', {
+        url: '/:billId/edit',
+        templateUrl: 'billing/partials/billEditCard.html',
+        controller: 'BillEditController'
+      })
 }]);
