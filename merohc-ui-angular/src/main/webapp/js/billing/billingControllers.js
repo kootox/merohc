@@ -161,11 +161,11 @@ merohcBillingControllers.controller('InvoiceCreateController',
     $state.go('billing.invoices');
   }
 
-  $scope.addInvoiceItem = function(){
+  $scope.addInvoiceItemPanel = function(){
     $scope.addItemPanel=true;
   }
 
-  $scope.addItem = function(item){
+  $scope.addInvoiceItem = function(item){
     for (var index in $scope.categories) {
       var category = $scope.categories[index];
       if (category.id===item.invoiceCategoryId){
@@ -277,11 +277,18 @@ merohcBillingControllers.controller('InvoiceEditController',
 
   $scope.updateInvoice();
 
-  $scope.addInvoiceItem = function(){
+  $scope.addInvoiceItemPanel = function(){
     $scope.addItemPanel=true;
   }
 
-  $scope.addItem = function(item){
+  $scope.addInvoiceItem = function(item){
+    for (var index in $scope.categories) {
+      var category = $scope.categories[index];
+      if (category.id===item.invoiceCategoryId){
+        item.invoiceCategoryName=category.name;
+      }
+    }
+
     $scope.invoice.invoiceItems.push(item);
     $scope.addItemPanel = false;
   }
@@ -511,11 +518,11 @@ merohcBillingControllers.controller('BillCreateController',
     $state.go('billing.bills');
   }
 
-  $scope.addBillItem = function(){
+  $scope.addBillItemPanel = function(){
     $scope.addItemPanel=true;
   }
 
-  $scope.addItem = function(item){
+  $scope.addBillItem = function(item){
     for (var index in $scope.categories) {
       var category = $scope.categories[index];
       if (category.id===item.billCategoryId){
@@ -627,11 +634,11 @@ merohcBillingControllers.controller('BillEditController',
 
   $scope.updateBill();
 
-  $scope.addBillItem = function(){
+  $scope.addBillItemPanel = function(){
     $scope.addItemPanel=true;
   }
 
-  $scope.addItem = function(item){
+  $scope.addBillItem = function(item){
     for (var index in $scope.categories) {
       var category = $scope.categories[index];
       if (category.id===item.billCategoryId){
