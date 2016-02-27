@@ -21,6 +21,8 @@
     <script src="js/referentials/referentialsControllers.js"></script>
     <script src="js/billing/billing.js"></script>
     <script src="js/billing/billingControllers.js"></script>
+    <script src="js/projects/projects.js"></script>
+    <script src="js/projects/projectsControllers.js"></script>
     <script src="js/merohcControllers.js"></script>
 
     <link rel="stylesheet" href="css/chorem.css">
@@ -80,10 +82,18 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                             <i class="fa fa-briefcase"></i>
                             Projets
+                            <span class="caret"></span>
                         </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a ui-sref="projects.projects">
+                                <i class="fa fa-briefcase"></i>
+                                Projets
+                            </a></li>
+                        </ul>
+
                     </li>
                     <li>
                         <a href="/#">
