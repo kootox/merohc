@@ -22,9 +22,14 @@ public class InvoiceTopiaDao extends AbstractInvoiceTopiaDao<Invoice> {
 
         Invoice example = searchExample.getExample();
         if (example != null) {
-            if (StringUtils.isNotBlank(example.getCurrency())) {
-                String currencyClause = DaoUtils.andAttributeLike("I", Invoice.PROPERTY_CURRENCY, args, example.getCurrency());
-                hqlBuilder.append(currencyClause);
+            if (example.getCompany() != null) {
+                String companyClause = DaoUtils.andAttributeEquals("I", Invoice.PROPERTY_COMPANY, args, example.getCompany());
+                hqlBuilder.append(companyClause);
+            }
+
+            if (example.getProject() != null) {
+                String projectClause = DaoUtils.andAttributeEquals("I", Invoice.PROPERTY_PROJECT, args, example.getProject());
+                hqlBuilder.append(projectClause);
             }
 
             if (StringUtils.isNotBlank(example.getReference())) {
