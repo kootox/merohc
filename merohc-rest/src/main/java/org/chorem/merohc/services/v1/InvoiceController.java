@@ -308,8 +308,9 @@ public class InvoiceController extends AbstractService {
         return getPersistenceContext().getBillItemDao();
     }
 
-    protected BillCategoryTopiaDao getBillCategoryDao(){
+    protected BillCategoryTopiaDao getBillCategoryDao() {
         return getPersistenceContext().getBillCategoryDao();
+    }
 
     protected ProjectTopiaDao getProjectDao() {
         return getPersistenceContext().getProjectDao();
