@@ -18,6 +18,8 @@ import org.chorem.merohc.entities.InvoiceCategoryTopiaDao;
 import org.chorem.merohc.entities.InvoiceItem;
 import org.chorem.merohc.entities.InvoiceItemTopiaDao;
 import org.chorem.merohc.entities.InvoiceTopiaDao;
+import org.chorem.merohc.entities.Project;
+import org.chorem.merohc.entities.ProjectTopiaDao;
 import org.nuiton.topia.persistence.TopiaNoResultException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +64,8 @@ public class InvoiceController extends AbstractService {
         invoiceToStore.setName(dto.getName());
         Company company = getCompanyDao().forTopiaIdEquals(dto.getCompanyId()).findAny();
         invoiceToStore.setCompany(company);
+        Project project = getProjectDao().forTopiaIdEquals(dto.getProjectId()).findAny();
+        invoiceToStore.setProject(project);
         List<InvoiceItem> items = new ArrayList<>();
         for(InvoiceItemDTO itemDTO:dto.getInvoiceItems()){
             InvoiceItem item = getInvoiceItemDao().create();
@@ -131,6 +135,10 @@ public class InvoiceController extends AbstractService {
         invoiceToStore.setPaymentDate(dto.getPaymentDate());
         invoiceToStore.setReference(dto.getReference());
         invoiceToStore.setName(dto.getName());
+        Company company = getCompanyDao().forTopiaIdEquals(dto.getCompanyId()).findAny();
+        invoiceToStore.setCompany(company);
+        Project project = getProjectDao().forTopiaIdEquals(dto.getProjectId()).findAny();
+        invoiceToStore.setProject(project);
         List<InvoiceItem> items = new ArrayList<>();
         for(InvoiceItemDTO itemDTO:dto.getInvoiceItems()){
             InvoiceItem item = getInvoiceItemDao().create();
@@ -300,7 +308,11 @@ public class InvoiceController extends AbstractService {
         return getPersistenceContext().getBillItemDao();
     }
 
-    protected BillCategoryTopiaDao getBillCategoryDao(){
+    protected BillCategoryTopiaDao getBillCategoryDao() {
         return getPersistenceContext().getBillCategoryDao();
+    }
+
+    protected ProjectTopiaDao getProjectDao() {
+        return getPersistenceContext().getProjectDao();
     }
 }
