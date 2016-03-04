@@ -8,12 +8,14 @@ public class InvoiceCategoryDTO implements Serializable {
 
     protected String id;
     protected String name;
+    protected String account;
 
     public InvoiceCategoryDTO() {}
 
     public InvoiceCategoryDTO (InvoiceCategory category) {
         this.id = category.getTopiaId();
         this.name = category.getName();
+        this.account = category.getAccount();
     }
 
     public String getId() {
@@ -30,5 +32,13 @@ public class InvoiceCategoryDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
     }
 }

@@ -37,11 +37,11 @@ public class CompanyController extends AbstractService {
     }
 
     @ResponseBody
-    @RequestMapping(value="/v1/company/add", method= RequestMethod.POST)
-    public CompanyDTO addCompany(@RequestParam(value="name") String name,
-                                 @RequestParam(value="type", required = false) String type) {
+    @RequestMapping(value="/v1/company", method= RequestMethod.PUT)
+    public CompanyDTO addCompany(@RequestBody CompanyDTO companyDTO) {
         Company companyToStore = getCompanyDao().create();
-        companyToStore.setName(name);
+        companyToStore.setName(companyDTO.getName());
+        companyToStore.setAccount(companyDTO.getAccount());
         CompanyDTO dto = new CompanyDTO(companyToStore);
         return dto;
     }
@@ -72,13 +72,12 @@ public class CompanyController extends AbstractService {
 
     @ResponseBody
     @RequestMapping(value="/v1/company", method= RequestMethod.POST)
-    public CompanyDTO editCompany(@RequestParam(value="id") String id,
-                                  @RequestParam(value="name") String name,
-                                  @RequestParam(value="type", required = false) String type) {
+    public CompanyDTO editCompany(@RequestBody CompanyDTO companyDTO) {
 
-        Company company = getCompanyDao().forTopiaIdEquals(id).findAny();
+        Company company = getCompanyDao().forTopiaIdEquals(companyDTO.getId()).findAny();
         //FIXME JC151211 - Deal with TopiaNoResultException
-        company.setName(name);
+        company.setName(companyDTO.getName());
+        company.setAccount(companyDTO.getAccount());
         CompanyDTO dto = new CompanyDTO(company);
         return dto;
     }
