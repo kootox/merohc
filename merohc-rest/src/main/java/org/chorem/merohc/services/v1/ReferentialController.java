@@ -46,6 +46,7 @@ public class ReferentialController extends AbstractService {
         //FIXME ymartel 20160219 : check if name does not already exist
         InvoiceCategory categoryToStore = getInvoiceCategoryDao().create();
         categoryToStore.setName(invoiceCategoryDTO.getName());
+        categoryToStore.setAccount(invoiceCategoryDTO.getAccount());
         InvoiceCategoryDTO dto = new InvoiceCategoryDTO(categoryToStore);
         return dto;
     }
@@ -75,12 +76,12 @@ public class ReferentialController extends AbstractService {
 
     @ResponseBody
     @RequestMapping(value="/v1/referential/invoiceCategory", method= RequestMethod.POST)
-    public InvoiceCategoryDTO editInvoiceCategory(@RequestParam(value="id") String id,
-                                                  @RequestParam(value="name") String name) {
+    public InvoiceCategoryDTO editInvoiceCategory(@RequestBody InvoiceCategoryDTO invoiceCategoryDTO) {
 
-        InvoiceCategory category = getInvoiceCategoryDao().forTopiaIdEquals(id).findAny();
+        InvoiceCategory category = getInvoiceCategoryDao().forTopiaIdEquals(invoiceCategoryDTO.getId()).findAny();
         //FIXME JC151211 - Deal with TopiaNoResultException
-        category.setName(name);
+        category.setName(invoiceCategoryDTO.getName());
+        category.setAccount(invoiceCategoryDTO.getAccount());
         InvoiceCategoryDTO dto = new InvoiceCategoryDTO(category);
         return dto;
     }
@@ -106,6 +107,7 @@ public class ReferentialController extends AbstractService {
         //FIXME jcouteau 20160220 : check if name does not already exist
         BillCategory categoryToStore = getBillCategoryDao().create();
         categoryToStore.setName(billCategoryDTO.getName());
+        categoryToStore.setAccount(billCategoryDTO.getAccount());
         BillCategoryDTO dto = new BillCategoryDTO(categoryToStore);
         return dto;
     }
@@ -140,6 +142,7 @@ public class ReferentialController extends AbstractService {
         BillCategory category = getBillCategoryDao().forTopiaIdEquals(billCategoryDTO.getId()).findAny();
         //FIXME jcouteau 20160220 - Deal with TopiaNoResultException
         category.setName(billCategoryDTO.getName());
+        category.setAccount(billCategoryDTO.getAccount());
         BillCategoryDTO dto = new BillCategoryDTO(category);
         return dto;
     }

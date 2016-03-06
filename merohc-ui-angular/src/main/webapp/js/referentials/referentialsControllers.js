@@ -162,11 +162,10 @@ merohcReferentialsControllers.controller('InvoiceCategoryEditController',
   };
 
   $scope.saveCategory = function(){
-    $http({
+$http({
             method  : 'POST',
             url     : merohcConfig.BASE_URL + '/referential/invoiceCategory',
-            data    : $.param($scope.category),  // pass in data as strings
-            headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
+            data    : $scope.category
          })
           .success(function(data) {
 
