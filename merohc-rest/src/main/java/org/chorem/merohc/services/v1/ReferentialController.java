@@ -107,6 +107,7 @@ public class ReferentialController extends AbstractService {
         //FIXME jcouteau 20160220 : check if name does not already exist
         BillCategory categoryToStore = getBillCategoryDao().create();
         categoryToStore.setName(billCategoryDTO.getName());
+        categoryToStore.setAccount(billCategoryDTO.getAccount());
         BillCategoryDTO dto = new BillCategoryDTO(categoryToStore);
         return dto;
     }
@@ -141,6 +142,7 @@ public class ReferentialController extends AbstractService {
         BillCategory category = getBillCategoryDao().forTopiaIdEquals(billCategoryDTO.getId()).findAny();
         //FIXME jcouteau 20160220 - Deal with TopiaNoResultException
         category.setName(billCategoryDTO.getName());
+        category.setAccount(billCategoryDTO.getAccount());
         BillCategoryDTO dto = new BillCategoryDTO(category);
         return dto;
     }
